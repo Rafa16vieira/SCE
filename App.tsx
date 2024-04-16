@@ -1,20 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Pressable, Keyboard } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import Header from './src/components/header';
+import { Header1 } from './src/components/header';
+import Navegacao from './src/components/navigation';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Pressable style={styles.container} onPress={Keyboard.dismiss}>
+      <Navegacao/>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#161616',
+    paddingTop: 60,
   },
 });
