@@ -31,6 +31,21 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "e22c5e3c-07d0-4e67-ac45-6761c43a2a4b"
+      }
+    },
+    "owner": "rafa16vieira",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e22c5e3c-07d0-4e67-ac45-6761c43a2a4b"
     }
   }
 }
