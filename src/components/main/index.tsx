@@ -1,8 +1,9 @@
 import react from "react";
-import { View, Text, Image, Pressable, ImageBackground, SafeAreaView } from "react-native";
+import { View, Text, Image, Pressable, ImageBackground, SafeAreaView, ScrollView } from "react-native";
 import styles from "./style";
 import { Icon } from '@rneui/themed';
 import Header, { Header1 } from "../header";
+import bg from './../../../assets/images/background.png'
 
 
 
@@ -16,9 +17,10 @@ export interface MainProps {
 
 export default function Main(props: MainProps){
     return(
+        <ImageBackground source={bg}>
         <SafeAreaView style={styles.mainScreen}>
         
-        <View style={styles.mainScreen}>
+            <ScrollView style={styles.mainScreen}>
             
 
             <Header/>
@@ -51,10 +53,8 @@ export default function Main(props: MainProps){
 
                 </View>
             </Pressable>
-        </View>
+        </ScrollView>
         </SafeAreaView>
+        </ImageBackground>
     );
 }
-
-
-//<a href="https://www.freepik.com/free-vector/mobile_175286688.htm#query=app%20background%20green&position=0&from_view=keyword&track=ais_user&uuid=0e16ce19-4ce1-4f9f-b6c8-6769e7d2dedd">Image by Gbob on Freepik</a>

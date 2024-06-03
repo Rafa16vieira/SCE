@@ -1,5 +1,5 @@
 import React, { useState, Component, useEffect } from "react";
-import { View, Text, Image, Pressable, SafeAreaView, ScrollView, TextInput, Share, } from "react-native";
+import { View, Text, Image, Pressable, SafeAreaView, ScrollView, TextInput, Share, ImageBackground, } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import styles from "./style";
 import { Icon } from '@rneui/themed';
@@ -9,6 +9,7 @@ import { db } from "../../config/firebase-config";
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { RouteProp } from "@react-navigation/native";
 import { mainParams } from "../navigation";
+import bg from './../../../assets/images/background.png'
 
 
 export function criacao(importancia: number, falha: number, id: any, selo: string, evidencia: string){
@@ -262,6 +263,7 @@ export default function Form5( props: form5props ){
     
     const stringfinal: string = "Essa evidência tem selo " + selo
     return(
+        <ImageBackground source={bg}>
         <SafeAreaView style={styles.formPoint}>
         
         <View style={styles.formPoint}>
@@ -283,7 +285,7 @@ export default function Form5( props: form5props ){
                 <AwesomeAlert show={showAlert} showProgress={false} title="Confirmação da evidência" message={stringfinal} closeOnTouchOutside={false} closeOnHardwareBackPress={false} showCancelButton={true} showConfirmButton={true} cancelText="Exportar PDF" confirmText="Voltar ao menu" cancelButtonColor="#152319" confirmButtonColor="#5c996b" onCancelPressed={() => {props.navigation.navigate("Main");}} onConfirmPressed={() => {props.navigation.navigate("Main");}}/>
         </View>
         </SafeAreaView>
-
+        </ImageBackground>
         
     );
 }

@@ -55,8 +55,7 @@ const styles = StyleSheet.create({
         color: '#ddd'
     },
     formPoint: {
-        padding: 20, 
-        backgroundColor: '#c7ffd8',
+        padding: 20,
         height: 1800,
 
     },

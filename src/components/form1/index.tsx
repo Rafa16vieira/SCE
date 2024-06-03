@@ -1,12 +1,13 @@
 import { Header1 } from "../header";
 import styles from "./style";
-import { View, ScrollView, Text, TextInput, Button, TouchableOpacity, Pressable, SafeAreaView } from "react-native";
+import { View, ScrollView, Text, TextInput, Button, TouchableOpacity, Pressable, SafeAreaView, ImageBackground } from "react-native";
 import { useEffect, useState } from "react";
 import { db } from "../../config/firebase-config";
 import { collection, doc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore"; 
 import { RouteProp } from "@react-navigation/native";
 import { mainParams } from "../navigation";
 import { Utils } from "@nativescript/core";
+import bg from './../../../assets/images/background.png'
 
 export function criacao(nome: string, key: any, descricao: string, proposito: string, id: string) {
     const projectDoc = doc(db, "forms", id)
@@ -45,7 +46,7 @@ export default function Form1(props: form1props){
 
 
     return(
-
+        <ImageBackground source={bg}>
         <SafeAreaView style={styles.formPoint}>
             <Header1/>
         <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
@@ -77,5 +78,6 @@ export default function Form1(props: form1props){
             </View>
         </ScrollView>
         </SafeAreaView>
+        </ImageBackground>
     );
 }

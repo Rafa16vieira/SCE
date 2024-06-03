@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native"
 const styles = StyleSheet.create({
     formPoint: {
         padding: 20, 
-        backgroundColor: '#c7ffd8',
         height: '100%'
     },
     smallField: {

@@ -1,5 +1,5 @@
 import react, { useState } from "react";
-import { View, Text, Image, Pressable, SafeAreaView, ScrollView, TextInput } from "react-native";
+import { View, Text, Image, Pressable, SafeAreaView, ScrollView, TextInput, ImageBackground } from "react-native";
 import styles from "./style";
 import { Icon } from '@rneui/themed';
 import { Header1 } from "../header";
@@ -8,6 +8,7 @@ import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../config/firebase-config";
 import { RouteProp } from "@react-navigation/native";
 import { mainParams } from "../navigation";
+import bg from './../../../assets/images/background.png'
 
 export function criacao(amostra: string, aplicabilidade: string, implementacao: string, usos: string, vieses: string, conflitos: boolean, id: any) {
     updateDoc(doc(db, "forms", id), {
@@ -39,6 +40,7 @@ export default function Form3( props: form3props ){
     const newid = String(id)
 
     return(
+        <ImageBackground source={bg}>
         <SafeAreaView style={styles.formPoint}>
             <Header1/>
             <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
@@ -66,5 +68,6 @@ export default function Form3( props: form3props ){
             </View>
             </ScrollView>
         </SafeAreaView>
+        </ImageBackground>
     );
 }

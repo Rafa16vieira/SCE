@@ -1,11 +1,12 @@
 import { RouteProp } from "@react-navigation/native";
-import { View, Text, SafeAreaView, ScrollView } from "react-native";
+import { View, Text, SafeAreaView, ScrollView, ImageBackground } from "react-native";
 import { params } from "../navigation";
 import { HeaderEvid } from "../header";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/src/config/firebase-config";
 import { useEffect } from "react";
 import styles from "./style";
+import bg from './../../../assets/images/background.png'
 
 
 export interface evidProps {
@@ -49,6 +50,7 @@ const getData = async () => {
     
 
     return(
+        <ImageBackground source={bg}>
         <SafeAreaView style={styles.formPoint}>
             <HeaderEvid/>
             <ScrollView style={styles.formPoint}>
@@ -160,5 +162,6 @@ const getData = async () => {
                         )}
                     </ScrollView>
         </SafeAreaView>
+        </ImageBackground>
     )
 }

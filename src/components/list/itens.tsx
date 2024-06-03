@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, View, Text, Button, Pressable } from "react-native";
+import { SafeAreaView, ScrollView, View, Text, Button, Pressable, ImageBackground } from "react-native";
 import styles from "./style";
 import { useRoute } from "@react-navigation/native";
 import { RouteProp } from '@react-navigation/native';
@@ -6,6 +6,7 @@ import { params } from "../navigation";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useEffect } from "react";
 import { db } from "@/src/config/firebase-config";
+import bg from './../../../assets/images/background.png'
 
 
 export interface ItensProps {
@@ -46,6 +47,7 @@ export default function Itens(props: ItensProps){
 
 
     return(
+        <ImageBackground source={bg}>
         <SafeAreaView style={styles.formPoint}>
             <ScrollView style={styles.formPoint}>
                     {evid.map((projeto: any) =>
@@ -61,6 +63,6 @@ export default function Itens(props: ItensProps){
                     )}
             </ScrollView>
         </SafeAreaView>
-        
+        </ImageBackground>
     );
 };

@@ -1,5 +1,5 @@
 import styles from "./style";
-import { View, Text, Button, TextInput , TouchableOpacity, Pressable, ScrollView, SafeAreaView,   } from "react-native";
+import { View, Text, Button, TextInput , TouchableOpacity, Pressable, ScrollView, SafeAreaView, ImageBackground,   } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { Header1 } from "../header";
 import react, { useState } from "react";
@@ -9,6 +9,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import React from "react";
 import { RouteProp } from "@react-navigation/native";
 import { mainParams } from "../navigation";
+import bg from './../../../assets/images/background.png'
 
 
 export function criacao(fonte: string, autores: any, data: string, tipo: string, relacoes: string, revisao: boolean, consistencia: boolean, id: any) {
@@ -53,6 +54,7 @@ export default function Form2( props: form2props ){
 
 
     return(
+        <ImageBackground source={bg}>
         <SafeAreaView style={styles.formPoint}>
             <Header1/>
             <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
@@ -98,5 +100,6 @@ export default function Form2( props: form2props ){
                 </View>
             </ScrollView>
         </SafeAreaView>
+        </ImageBackground>
     );
 }

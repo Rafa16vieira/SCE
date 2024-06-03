@@ -4,7 +4,8 @@ import { FieldPath, QuerySnapshot, collection, doc, getDoc, getDocs } from 'fire
 import { db } from '../../config/firebase-config';
 import { RouteProp } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
-import { useRoute } from "@react-navigation/native"
+import { useRoute } from "@react-navigation/native";
+import bg from './../../../assets/images/background.png'
 
 
 
@@ -34,6 +35,7 @@ export default function Projetos(props: AliviarDorscreenProps ) {
         },[])
 
     return(
+        <ImageBackground source={bg}>
         <ScrollView style={styles.formPoint}> 
             
                 <View>
@@ -57,6 +59,7 @@ export default function Projetos(props: AliviarDorscreenProps ) {
                     </View>
                 </View>
         </ScrollView>
+        </ImageBackground>
 
     );
 }
@@ -64,7 +67,6 @@ export default function Projetos(props: AliviarDorscreenProps ) {
 const styles = StyleSheet.create({
     formPoint: {
         padding: 20, 
-        backgroundColor: '#c7ffd8',
         height: '100%'
     },
     background: {

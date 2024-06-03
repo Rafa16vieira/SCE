@@ -3,9 +3,10 @@ import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore"
 import { db } from "../config/firebase-config";
 import { Header1 } from "../components/header";
 import React, { useState, Component, useEffect } from "react";
-import { View, Text, Image, Pressable, SafeAreaView, ScrollView, TextInput, } from "react-native";
+import { View, Text, Image, Pressable, SafeAreaView, ScrollView, TextInput, ImageBackground, } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import styles from "../components/list/style";
+import bg from './../../assets/images/background.png'
 
 export interface selecaoprops {
     navigation: any;
@@ -63,6 +64,7 @@ export default function Selecao( props: selecaoprops){
     
 
     return(
+        <ImageBackground source={bg}>
         <SafeAreaView style={styles.formPoint}>
             <Header1/>
             <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
@@ -83,5 +85,6 @@ export default function Selecao( props: selecaoprops){
 
             </ScrollView>
         </SafeAreaView>
+        </ImageBackground>
     )
 }

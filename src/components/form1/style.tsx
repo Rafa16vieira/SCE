@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
     },
     formPoint: {
         padding: 20, 
-        backgroundColor: '#c7ffd8'
     },
     text: {
         color: '#1f3324',
@@ -80,27 +79,32 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 6,
         margin:  10,
-        marginLeft: 15
+        marginLeft: 15,
+        justifyContent: 'center',
+        alignContent: 'center'
     },
     next: {
         backgroundColor: '#5c996b',
         width: '40%',
         height: 60,
         padding: 10,
-        borderRadius: 6
+        borderRadius: 6,
+        justifyContent: 'center',
+        alignContent: 'center'
     },
     buttonTextNext: {
         fontSize: 20,
         color: '#fff',
-        marginLeft: 28,
-        marginTop: 7,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginTop: 0,
         fontWeight: 'bold'
     },
     buttonTextBack: {
         fontSize: 20,
         color: '#fff',
-        marginLeft: 38,
-        marginTop: 7,
+        alignSelf: 'center',
+        justifyContent: 'center',
         fontWeight: 'bold'
     },
     buttonAdd: {

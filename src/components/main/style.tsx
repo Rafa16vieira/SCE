@@ -2,11 +2,9 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     mainScreen: {
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 0,
-        backgroundColor: '#c7ffd8'
+        padding: 20, 
+        height: '100%',
+        alignContent: 'center',
     },
     textMain: {
         color: "#152319",
@@ -20,14 +18,16 @@ const styles = StyleSheet.create({
         width: 325,
         height: 250,
         backgroundColor: "#3d6647",
-        marginBottom: 60
+        marginBottom: 60,
+        alignSelf: 'center'
     },
     squareBottom: {
         borderRadius: 32,
         width: 325,
         height: 250,
         backgroundColor: "#3d6647",
-        marginBottom: 150
+        marginBottom: 150,
+        alignSelf: 'center'
     },
     squareSecondary:{
         borderRadius: 12,
