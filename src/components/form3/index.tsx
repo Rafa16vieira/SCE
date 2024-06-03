@@ -41,7 +41,7 @@ export default function Form3( props: form3props ){
     return(
         <SafeAreaView style={styles.formPoint}>
             <Header1/>
-            <ScrollView keyboardDismissMode="on-drag">
+            <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
                 <Text style={styles.text}>Texto de amostra</Text>
                 <TextInput style={styles.sample} onChangeText={(amostra) => setAmostra(amostra)} multiline={true} numberOfLines={3} placeholder="Digite um breve texto de amostra" placeholderTextColor={'#fff'}/>
                 <Text style={styles.text}>Aplicabilidade</Text>

@@ -15,7 +15,6 @@ export function criacao(nome: string, key: any, descricao: string, proposito: st
         palavras: key,
         descricao: descricao,
         proposito: proposito
-
     });
 };
 
@@ -49,7 +48,7 @@ export default function Form1(props: form1props){
 
         <SafeAreaView style={styles.formPoint}>
             <Header1/>
-        <ScrollView>
+        <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
             
             <Text style={styles.text}>Nome</Text>
             <TextInput style={styles.nome} onChangeText={nome => setNome(nome)} placeholder="Nomear evidência" placeholderTextColor={'#fff'}/>
@@ -59,7 +58,7 @@ export default function Form1(props: form1props){
                 novoValor[index] = texto
                 setKey(novoValor)
             }} />)) }
-            <Button title="+" color={"#5c996b"} onPress={() => {
+            <Button title="+" color={"#1f3324"} onPress={() => {
                 const novoValor = [...key]
                 novoValor.push('')
                 setKey(novoValor)

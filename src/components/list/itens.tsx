@@ -16,10 +16,15 @@ export interface ItensProps {
 let evid: any = []
 let newid: string
 
+
+
+
 export default function Itens(props: ItensProps){
+
     //@ts-ignore
     const {id} = props.route.params
     console.log({id})
+
 
     const getData = async () => {
         evid = []
@@ -31,6 +36,9 @@ export default function Itens(props: ItensProps){
             
         })
     }
+    
+
+    
 
     useEffect(() => {
         getData();
@@ -39,7 +47,7 @@ export default function Itens(props: ItensProps){
 
     return(
         <SafeAreaView style={styles.formPoint}>
-            <ScrollView>
+            <ScrollView style={styles.formPoint}>
                     {evid.map((projeto: any) =>
                         <View key={projeto.nome}>
                         

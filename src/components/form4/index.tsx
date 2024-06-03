@@ -69,6 +69,7 @@ export default function Form4( props: form5props){
     const sum = relevancia + cobertura + relevancia
 
     return(
+        <SafeAreaView style={styles.formPoint}>
         <View style={styles.formPoint}>
             <Header1/>
             <View style={styles.sample}>
@@ -96,5 +97,6 @@ export default function Form4( props: form5props){
                 </Pressable>
             </View>
         </View>
+        </SafeAreaView>
     );
 }

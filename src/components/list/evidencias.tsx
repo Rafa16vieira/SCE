@@ -22,30 +22,36 @@ export function boolString(bool: boolean){
     return stringer;
 }
 
+
 export default function Evidencias (props: evidProps){
 
-    const getData = async () => {
-        evids = []
-        const q = query(collection(db, 'forms'), where('nome', '==', nome));
-        const querySnapShot = await getDocs(q);
-        querySnapShot.forEach((doc) => {
-            evids.push(doc.data())
-            
-        })
-    }
+    //@ts-ignore
+const {id, nome} = props.route.params
+
+const getData = async () => {
+    evids = []
+    const q = query(collection(db, 'forms'), where('nome', '==', nome));
+    const querySnapShot = await getDocs(q);
+    querySnapShot.forEach((doc) => {
+        evids.push(doc.data())
+        
+    })
+}
+
+    
 
     useEffect(() => {
         getData();
         console.log(id)
         },[])
 
-    //@ts-ignore
-    const {id, nome} = props.route.params
+    
+    
 
     return(
         <SafeAreaView style={styles.formPoint}>
             <HeaderEvid/>
-            <ScrollView>
+            <ScrollView style={styles.formPoint}>
                 {evids.map((projeto: any) =>
                             <View key={projeto.nome} style={{flexDirection: 'column', flex: 1}}>
                                 <Text style={styles.texto}>Nome:</Text>

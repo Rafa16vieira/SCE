@@ -38,29 +38,34 @@ function makeid() {
 
 
 
+const getData = async () => {
+    projetos = []
+    const querySnapShot = await getDocs(collection(db, 'projetos'));
+    querySnapShot.forEach((doc) => {
+        projetos.push(doc.data())
+        
+    })
+}
+
+
+
+
 
 
 export default function Selecao( props: selecaoprops){
     const [ showAlert, setShowAlert ] = useState(false)
     const id: string = makeid()
-
-    const getData = async () => {
-        projetos = []
-        const querySnapShot = await getDocs(collection(db, 'projetos'));
-        querySnapShot.forEach((doc) => {
-            projetos.push(doc.data())
-            
-        })
-    }
-
+    
     useEffect(() => {
         getData();
         },[])
 
+    
+
     return(
         <SafeAreaView style={styles.formPoint}>
             <Header1/>
-            <ScrollView keyboardDismissMode="on-drag">
+            <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
             {projetos.map((projeto: any) =>
                         <View key={projeto.nome}>
                         

@@ -15,16 +15,17 @@ export interface AliviarDorscreenProps {
     navigation: any;
 }
 
+const getData = async () => {
+    tst = []
+    const querySnapShot = await getDocs(collection(db, 'projetos'));
+    querySnapShot.forEach((doc) => {
+        tst.push(doc.data())
+    })
+}
 
 export default function Projetos(props: AliviarDorscreenProps ) {
     
-    const getData = async () => {
-        tst = []
-        const querySnapShot = await getDocs(collection(db, 'projetos'));
-        querySnapShot.forEach((doc) => {
-            tst.push(doc.data())
-        })
-    }
+    
     
     
 
@@ -40,7 +41,11 @@ export default function Projetos(props: AliviarDorscreenProps ) {
                         <View key={projeto.nome}>
                         
                             <Text key={projeto.nome} style={styles.texto}>{projeto.nome}</Text>
-                            <Button title={'Ver evidências'} color={'#1f3324'} key={projeto.id} onPress={() => {props.navigation.navigate("Itens", {id: projeto.id})}}/>
+                            <Pressable key={projeto.id} onPress={() => {props.navigation.navigate("Itens", {id: projeto.id})}}>
+                                <View key={projeto.nome}>
+                                    <Text style={{backgroundColor:'#1f3324', color: '#fff', padding: 10, borderRadius: 30}} key={projeto.nome}>clique aqui</Text>
+                                </View>
+                            </Pressable>
                             <View style={styles.line}/>
                                 
                         </View>
