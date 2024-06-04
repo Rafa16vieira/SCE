@@ -3,7 +3,7 @@ import { collection, doc, getDocs, setDoc, updateDoc } from "firebase/firestore"
 import { db } from "../config/firebase-config";
 import { Header1 } from "../components/header";
 import React, { useState, Component, useEffect } from "react";
-import { View, Text, Image, Pressable, SafeAreaView, ScrollView, TextInput, ImageBackground, } from "react-native";
+import { View, Text, Image, Pressable, SafeAreaView, ScrollView, TextInput, ImageBackground, Modal, Button, Alert, } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import styles from "../components/list/style";
 import bg from './../../assets/images/background.png'
@@ -21,6 +21,15 @@ export function criacao( id: string, projetoID: any ) {
     setDoc(projectDoc, {
         nome: 'new',
         projetoID: projetoID
+
+    });
+};
+
+export function criacaoProj( nome: string ) {
+    const projectDoc = doc(db, "projetos", makeid())
+    setDoc(projectDoc, {
+        nome: nome,
+        id: makeid()
 
     });
 };
@@ -55,7 +64,8 @@ const getData = async () => {
 
 export default function Selecao( props: selecaoprops){
     const [ showAlert, setShowAlert ] = useState(false)
-    const id: string = makeid()
+    const id: string = makeid();
+    const [ nome, setNome ] = useState("");
     
     useEffect(() => {
         getData();
@@ -64,7 +74,7 @@ export default function Selecao( props: selecaoprops){
     
 
     return(
-        <ImageBackground source={bg}>
+        <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.formPoint}>
             <Header1/>
             <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
@@ -82,6 +92,22 @@ export default function Selecao( props: selecaoprops){
                             
                         
                     )}
+                    <View style={{marginBottom:30, marginTop: 30}}>
+                        <Button title={'Criar novo'} color='#1f3324' onPress={() => setShowAlert(true)}/>
+                        </View>
+
+                    <Modal style={{marginTop: 50, backgroundColor: '#c7ffd8', padding: 80, alignContent: 'center', justifyContent: 'center'}} animationType="slide" transparent={false} visible={showAlert} onRequestClose={() => {Alert.alert('Modal has been closed.'); setShowAlert(!showAlert); }}>
+                        <View style={{marginTop: 100, width: '100%', alignContent: 'center', justifyContent: 'center'}}>
+                        <Text style={styles.text}>Nome:</Text>
+                        <TextInput style={styles.nome} onChangeText={(nome) => setNome(nome)} placeholder='Insira o nome do projeto' placeholderTextColor={'#fff'}/>
+                        <View style={{width:'80%', alignSelf: 'center'}}>
+                        <View style={{marginBottom: 30}}>
+                        <Button title='Criar' color={'#9be466'} onPress={() => criacaoProj(nome)}/>
+                        </View>
+                        <Button title='Fechar' color={'rgb(255,0,0)'} onPress={() => setShowAlert(false)}/>
+                        </View>
+                        </View>
+                    </Modal>
 
             </ScrollView>
         </SafeAreaView>

@@ -3,7 +3,8 @@ import { StyleSheet } from "react-native"
 const styles = StyleSheet.create({
     formPoint: {
         padding: 20, 
-        height: '100%'
+        height: '100%',
+        
     },
     smallField: {
         borderColor: '#646464',
@@ -49,7 +50,32 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         height: 2,
         margin: 5
-    }
+    },
+    text: {
+        alignSelf: 'flex-start',
+        width: 320,
+        marginTop: -5,
+        marginVertical: 30,
+        left: 34,
+        fontSize: 20,
+        textAlign: 'center',
+        color: '#1f3324',
+        fontWeight: 'bold',
+    },
+    nome: {
+        borderColor: '#646464',
+        borderWidth: 1,
+        backgroundColor: '#1f3324',
+        width: '60%',
+        height: 30,
+        alignSelf: 'center',
+        borderRadius: 8,
+        paddingLeft: 4,
+        marginRight: 4,
+        marginBottom: 10,
+        color: '#c7ffd8',
+        
+    },
 })
 
 export default styles

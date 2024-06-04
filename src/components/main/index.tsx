@@ -3,7 +3,8 @@ import { View, Text, Image, Pressable, ImageBackground, SafeAreaView, ScrollView
 import styles from "./style";
 import { Icon } from '@rneui/themed';
 import Header, { Header1 } from "../header";
-import bg from './../../../assets/images/background.png'
+import bg from './../../../assets/images/background.png';
+import { printToFile } from "@/src/getter";
 
 
 
@@ -17,7 +18,7 @@ export interface MainProps {
 
 export default function Main(props: MainProps){
     return(
-        <ImageBackground source={bg}>
+        <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.mainScreen}>
         
             <ScrollView style={styles.mainScreen}>

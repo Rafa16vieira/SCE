@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
     formPoint: {
         padding: 20,
         height: 1800,
+        flex: 1
 
     },
     scroll: {

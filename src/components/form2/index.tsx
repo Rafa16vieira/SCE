@@ -12,15 +12,17 @@ import { mainParams } from "../navigation";
 import bg from './../../../assets/images/background.png'
 
 
-export function criacao(fonte: string, autores: any, data: string, tipo: string, relacoes: string, revisao: boolean, consistencia: boolean, id: any) {
+export function criacao(fonte: string, autores: any, data: string, tipo: string, norma: string, relacoes: string, revisao: string, consistencia: string, id: any, ident: string) {
     updateDoc(doc(db, "forms", id), {
         fonte: fonte,
         autores: autores,
         data: data,
         tipo: tipo,
+        norma: norma,
         relacoes: relacoes,
         revisao: revisao,
-        consistencia: consistencia
+        consistencia: consistencia,
+        identificacao: ident
 
     });
 };
@@ -40,8 +42,10 @@ export default function Form2( props: form2props ){
     const [ data, setData ] = useState("");
     const [ tipo, setTipo ] = useState("");
     const [ relacoes, setRelacoes ] = useState("");
-    const [ revisao, setRevisao ] = useState(false);
-    const [ consistencia, setConsistencia ] = useState(false);
+    const [ revisao, setRevisao ] = useState("NAO");
+    const [ consistencia, setConsistencia ] = useState("");
+    const [ norma, setNorma ] = useState("");
+    const [ ident, setIdent ] = useState("");
 
     //@ts-ignore
     const { id } = props.route.params
@@ -54,21 +58,23 @@ export default function Form2( props: form2props ){
 
 
     return(
-        <ImageBackground source={bg}>
+        <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}} style={{flex:1}}>
         <SafeAreaView style={styles.formPoint}>
             <Header1/>
             <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
             
                 <Text style={styles.text}>Fonte</Text>
                 <TextInput style={styles.font} onChangeText={(fonte) => setFonte(fonte)} placeholder="Link da fonte" placeholderTextColor={'#fff'}/>
+                <Text style={styles.text}>Identificação</Text>
+                <TextInput style={styles.type} onChangeText={(ident) => setIdent(ident)} placeholder="Insira a identificação" placeholderTextColor={'#fff'}/>
                 <Text style={styles.text}>Autores</Text>
                 {autores.map((valor, index) => (<TextInput key={index} style={styles.author} placeholder="Autor" placeholderTextColor={'#fff'} onChangeText={texto => {
                     let novoValor = [...autores]
-                    novoValor[index] = texto
+                    novoValor[index] = texto + ' '
                     setAutores(novoValor)
                 }} />)) }
                 
-                <Button color={'#5c996b'}  title="+" onPress={() => {
+                <Button color={'#1f3324'}  title="+" onPress={() => {
                     const novoValor = [...autores]
                     novoValor.push('')
                     setAutores(novoValor)
@@ -77,24 +83,21 @@ export default function Form2( props: form2props ){
                 <TextInput style={styles.date} onChangeText={(data) => setData(data)} placeholder="Insira a data" placeholderTextColor={'#fff'}/>
                 <Text style={styles.text}>Tipo</Text>
                 <TextInput style={styles.type} onChangeText={(tipo) => setTipo(tipo)} multiline={true} placeholder="Para que serve a evidência?" placeholderTextColor={'#fff'}/>
-                
-                <Text style={styles.text}>Relações na literatura atual</Text>
+                <Text style={styles.text}>Norma Regulatória</Text>
+                <TextInput style={styles.type} onChangeText={(norma) => setNorma(norma)} multiline={true} placeholder="Norma Regulatória" placeholderTextColor={'#fff'}/>
+                <TextInput style={styles.text}>Relações na literatura atual</TextInput>
                 <TextInput style={styles.relations} onChangeText={(relacoes) => setRelacoes(relacoes)} multiline={true} placeholder="Insira as relações" placeholderTextColor={'#fff'}/>
-                <View>
-                    <View style={styles.checkBoxArea}>
-                        <Text style={styles.text}>Revisão por pares</Text>
-                        <BouncyCheckbox fillColor="#1f3324" iconStyle={{borderColor: "#1f3324"}} onPress={(isChecked: boolean) => {setRevisao(true)}} />
-                    </View>
-                    <View style={styles.checkBoxArea}>
-                        <Text style={styles.text}>Consistente a literatura anterior</Text>
-                        <BouncyCheckbox fillColor="#1f3324" iconStyle={{borderColor: "#1f3324"}} onPress={(isChecked: boolean) => {setConsistencia(true)}} />
-                    </View>
+                <View style={styles.checkBoxArea}>
+                    <Text style={styles.text}>Revisao por pares</Text>
+                    <BouncyCheckbox fillColor="#1f3324" iconStyle={{borderColor: "#1f3324"}} onPress={(isChecked: boolean) => {setRevisao("SIM")}} />
                 </View>
+                <Text style={styles.text}>Consistência com a literatura anterior</Text>
+                <TextInput style={styles.date} onChangeText={(consistencia) => setConsistencia(consistencia)} placeholder="Consistência" placeholderTextColor={'#fff'}/>
                 <View style={styles.buttons}>
                     <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form1")}>
                         <Text style={styles.buttonTextBack}>Voltar</Text>
                     </Pressable>
-                    <Pressable style={styles.next} onPressIn={() => criacao(fonte, autores, data, tipo, relacoes, revisao, consistencia, newid)} onPress={() => props.navigation.navigate("Form3", {id: newid})}>
+                    <Pressable style={styles.next} onPressIn={() => criacao(fonte, autores, data, tipo, norma, relacoes, revisao, consistencia, newid, ident)} onPress={() => props.navigation.navigate("Form3", {id: newid})}>
                         <Text style={styles.buttonTextNext}>Avançar</Text>
                     </Pressable>
                 </View>

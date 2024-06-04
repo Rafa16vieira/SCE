@@ -135,6 +135,19 @@ const styles = StyleSheet.create({
         marginTop: 7,
         fontWeight: 'bold'
     },
+    conflitos: {
+        borderColor: '#646464',
+        borderWidth: 1,
+        backgroundColor: '#1f3324',
+        width: '100%',
+        height: 30,
+        alignSelf: 'flex-start',
+        borderRadius: 8,
+        paddingLeft: 4,
+        marginRight: 4,
+        marginBottom: 10,
+        color: '#ddd'
+    },
 
 });
 

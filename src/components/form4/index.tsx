@@ -40,14 +40,50 @@ const data4 = [
     { key: 5, value: '5 (forte)' }
 ];
 
-export function criacao(sintese: number, relevancia: number, cobertura: number, forca: number, id: any){
+export function criacao(sintese: string, fort: string, nalt: string, enf: string, relevancia: number, cobertura: number, forca: number, id: any){
     updateDoc(doc(db, "forms", id), {
         sintese: sintese,
+        fortalece: fort,
+        naoAltera: nalt,
+        enfraquece: enf,
         relevancia: relevancia,
         cobertura: cobertura,
         forca: forca
     })
 
+}
+
+export function fort(sintese:number){
+    switch(sintese){
+        case 1:
+            return 'SIM'
+            break;
+        default:
+            return 'NAO'
+            break;
+    }
+}
+
+export function nalt(sintese: number){
+    switch (sintese){
+        case 2:
+            return 'SIM'
+            break;
+        default:
+            return 'NAO'
+            break;
+    }
+}
+
+export function enf(sintese:number){
+    switch (sintese){
+        case 3:
+            return 'SIM'
+            break;
+        default:
+            return 'NAO'
+            break;
+    }
 }
 
 export interface form5props {
@@ -57,10 +93,12 @@ export interface form5props {
 
 
 export default function Form4( props: form5props){
+    const [ textsint, setTextsint ] = useState("")
     const [sintese, setSintese] = useState(0);
     const [ relevancia, setRelevancia ] = useState(0);
     const [ cobertura, setCobertura ] = useState(0);
     const [ forca, setForca ] = useState(0);
+
 
     //@ts-ignore
     const { id } = props.route.params
@@ -70,12 +108,14 @@ export default function Form4( props: form5props){
     const sum = relevancia + cobertura + relevancia
 
     return(
-        <ImageBackground source={bg}>
+        <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.formPoint}>
         <View style={styles.formPoint}>
             <Header1/>
+            <Text style={styles.text}>Síntese da análise</Text>
+            <TextInput style={styles.verify} onChangeText={(textsint) => setTextsint(textsint)} multiline={true} placeholder="Digite a sintese" placeholderTextColor={'#fff'}/>
             <View style={styles.sample}>
-                <Text style={styles.text}>Síntese da análise</Text>
+                <Text style={styles.text}>A evidência...</Text>
                 <SelectList setSelected={(sintese: number) => setSintese(sintese)} save="key" data={data} dropdownStyles={{backgroundColor: '#1f3324', height: 100, width: '100%'}} maxHeight={200} dropdownTextStyles={{color: '#fff'}} boxStyles={{backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1, width: '100%'}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
             </View>
             <View style={styles.sample}>
@@ -94,7 +134,7 @@ export default function Form4( props: form5props){
                 <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form3")}>
                     <Text style={styles.buttonTextBack}>Voltar</Text>
                 </Pressable>
-                <Pressable style={styles.next} onPressIn={() => criacao(sintese, relevancia, cobertura, forca, newid)} onPress={() => props.navigation.navigate("Form5", {id: newid, relevancia: relevancia, cobertura: cobertura, forca: forca})}>
+                <Pressable style={styles.next} onPressIn={() => criacao(textsint, fort(sintese), nalt(sintese), enf(sintese), relevancia, cobertura, forca, newid)} onPress={() => props.navigation.navigate("Form5", {id: newid, relevancia: relevancia, cobertura: cobertura, forca: forca})}>
                     <Text style={styles.buttonTextNext}>Avançar</Text>
                 </Pressable>
             </View>

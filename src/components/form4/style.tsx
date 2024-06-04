@@ -22,8 +22,7 @@ const styles = StyleSheet.create({
     buttons: {
         flexDirection: 'row',
         alignItems: 'center',
-        alignContent: 'flex-end',
-        marginTop: 160,
+        marginTop: 30,
         marginBottom: 40,
         marginLeft: 10
     },

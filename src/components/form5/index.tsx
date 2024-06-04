@@ -9,10 +9,11 @@ import { db } from "../../config/firebase-config";
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { RouteProp } from "@react-navigation/native";
 import { mainParams } from "../navigation";
-import bg from './../../../assets/images/background.png'
+import bg from './../../../assets/images/background.png';
+import { printToFile } from "@/src/getter";
 
 
-export function criacao(importancia: number, falha: number, id: any, selo: string, evidencia: string){
+export function criacao(importancia: any, falha: any, id: any, selo: string, evidencia: string){
     updateDoc(doc(db, "forms", id ), {
         importancia: importancia,
         falha: falha,
@@ -31,6 +32,64 @@ export interface form5props {
 let selo: string
 let evidencia: string
 let rcf : number
+
+export function perigo(importancia: number){
+    switch (importancia){
+        case 1:
+            return '1 - insignificante'
+            break;
+        case 2:
+            return '2 - insignificante'
+            break;
+        case 3:
+            return '3 - insignificante'
+            break;
+        case 4:
+            return '4 - insignificante'
+            break;
+        case 5:
+            return '5 - marginal'
+            break;
+        case 6:
+            return '6 - marginal'
+            break;
+        case 7:
+            return '7 - crítico'
+            break;
+        case 8:
+            return '8 - crítico'
+            break;
+        case 9:
+            return '9 - catastrófico'
+            break;
+        case 10:
+            return '10 - catastrófico'
+            break;
+    }
+}
+
+export function fail(falha:number){
+    switch(falha){
+        case 1:
+            return '1 - frequente'
+            break;
+        case 2:
+            return '2 - provável'
+            break;
+        case 3: 
+            return '3 - ocasional'
+            break;
+        case 4:
+            return + '4 - remoto'
+            break;
+        case 5:
+            return '5 - improvável'
+            break;
+        case 6:
+            return  '6 - sem mitigação'
+            break;
+    }
+}
 
 export default function Form5( props: form5props ){
     const [ showAlert, setShowAlert ] = useState(false)
@@ -263,7 +322,7 @@ export default function Form5( props: form5props ){
     
     const stringfinal: string = "Essa evidência tem selo " + selo
     return(
-        <ImageBackground source={bg}>
+        <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.formPoint}>
         
         <View style={styles.formPoint}>
@@ -278,11 +337,11 @@ export default function Form5( props: form5props ){
                     <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form4", {id: newid})}>
                         <Text style={styles.buttonTextBack}>Voltar</Text>
                     </Pressable>
-                    <Pressable style={styles.next} onPressIn={() => criacao(importancia, falha, newid, selo, evidencia)} onPress={() => setShowAlert(true)}>
+                    <Pressable style={styles.next} onPressIn={() => criacao(perigo(importancia), fail(falha), newid, selo, evidencia)} onPress={() => setShowAlert(true)}>
                         <Text style={styles.buttonTextNext}>Confirmar</Text>
                     </Pressable>
                 </View>
-                <AwesomeAlert show={showAlert} showProgress={false} title="Confirmação da evidência" message={stringfinal} closeOnTouchOutside={false} closeOnHardwareBackPress={false} showCancelButton={true} showConfirmButton={true} cancelText="Exportar PDF" confirmText="Voltar ao menu" cancelButtonColor="#152319" confirmButtonColor="#5c996b" onCancelPressed={() => {props.navigation.navigate("Main");}} onConfirmPressed={() => {props.navigation.navigate("Main");}}/>
+                <AwesomeAlert show={showAlert} showProgress={false} title="Confirmação da evidência" message={stringfinal} closeOnTouchOutside={false} closeOnHardwareBackPress={false} showCancelButton={true} showConfirmButton={true} cancelText="Ver cadastro" confirmText="Voltar ao menu" cancelButtonColor="#152319" confirmButtonColor="#5c996b" onCancelPressed={() => {props.navigation.navigate("Evidencias", {id: newid})}} onConfirmPressed={() => {props.navigation.navigate("Main");}}/>
         </View>
         </SafeAreaView>
         </ImageBackground>

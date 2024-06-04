@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Button, Text, StyleSheet, ImageBackground, TouchableOpacity, SafeAreaView, FlatList, Image, ScrollView, Pressable } from 'react-native';
-import { FieldPath, QuerySnapshot, collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import { View, Button, Text, StyleSheet, ImageBackground, TouchableOpacity, SafeAreaView, FlatList, Image, ScrollView, Pressable, Modal, Alert, TextInput } from 'react-native';
+import { FieldPath, QuerySnapshot, collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 import { db } from '../../config/firebase-config';
 import { RouteProp } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
@@ -24,8 +24,30 @@ const getData = async () => {
     })
 }
 
+function makeid() {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < 200) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+    }
+    return result;
+}
+
+export function criacao( nome: string ) {
+    const projectDoc = doc(db, "projetos", makeid())
+    setDoc(projectDoc, {
+        nome: nome,
+        id: makeid()
+
+    });
+};
+
 export default function Projetos(props: AliviarDorscreenProps ) {
-    
+    const [ showAlert, setShowAlert ] = useState(false)
+    const [ nome, setNome ] = useState("");
     
     
     
@@ -35,7 +57,7 @@ export default function Projetos(props: AliviarDorscreenProps ) {
         },[])
 
     return(
-        <ImageBackground source={bg}>
+        <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <ScrollView style={styles.formPoint}> 
             
                 <View>
@@ -55,9 +77,24 @@ export default function Projetos(props: AliviarDorscreenProps ) {
                         
                     )}
                     <View style={{marginTop: 100, width: '100%', alignSelf: 'baseline'}}>
+                        <View style={{marginBottom:30}}>
+                        <Button title={'Criar novo'} color='#1f3324' onPress={() => setShowAlert(true)}/>
+                        </View>
                         <Button title={"Menu"} color='#1f3324' onPress={() => {props.navigation.navigate("Main")}}/>
                     </View>
                 </View>
+                <Modal style={{marginTop: 50, backgroundColor: '#c7ffd8', padding: 80, alignContent: 'center', justifyContent: 'center'}} animationType="slide" transparent={false} visible={showAlert} onRequestClose={() => {Alert.alert('Modal has been closed.'); setShowAlert(!showAlert); }}>
+                    <View style={{marginTop: 100, width: '100%', alignContent: 'center', justifyContent: 'center'}}>
+                    <Text style={styles.text}>Nome:</Text>
+                    <TextInput style={styles.nome} onChangeText={(nome) => setNome(nome)} placeholder='Insira o nome do projeto' placeholderTextColor={'#fff'}/>
+                    <View style={{width:'80%', alignSelf: 'center'}}>
+                    <View style={{marginBottom: 30}}>
+                    <Button title='Criar' color={'#9be466'} onPress={() => criacao(nome)}/>
+                    </View>
+                    <Button title='Fechar' color={'rgb(255,0,0)'} onPress={() => setShowAlert(false)}/>
+                    </View>
+                    </View>
+                </Modal>
         </ScrollView>
         </ImageBackground>
 
@@ -80,13 +117,14 @@ const styles = StyleSheet.create({
         color: '#5F5F5F'
     },
     text: {
+        alignSelf: 'flex-start',
         width: 320,
         marginTop: -5,
         marginVertical: 30,
         left: 34,
         fontSize: 20,
         textAlign: 'center',
-        color: '#5F5F5F',
+        color: '#1f3324',
         fontWeight: 'bold',
     },
     containerIcon: {
@@ -143,9 +181,9 @@ const styles = StyleSheet.create({
         borderColor: '#646464',
         borderWidth: 1,
         backgroundColor: '#1f3324',
-        width: 348,
+        width: '60%',
         height: 30,
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
         borderRadius: 8,
         paddingLeft: 4,
         marginRight: 4,
@@ -159,5 +197,5 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         height: 2,
         margin: 5
-    }
+    },
 });

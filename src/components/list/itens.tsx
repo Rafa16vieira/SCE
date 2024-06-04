@@ -47,7 +47,7 @@ export default function Itens(props: ItensProps){
 
 
     return(
-        <ImageBackground source={bg}>
+        <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.formPoint}>
             <ScrollView style={styles.formPoint}>
                     {evid.map((projeto: any) =>

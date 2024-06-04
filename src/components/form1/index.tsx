@@ -46,7 +46,7 @@ export default function Form1(props: form1props){
 
 
     return(
-        <ImageBackground source={bg}>
+        <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.formPoint}>
             <Header1/>
         <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
@@ -56,7 +56,7 @@ export default function Form1(props: form1props){
             <Text style={styles.text}>Palavras chave</Text>
             {key.map((valor, index) => (<TextInput style={styles.keywords} key={index} placeholder="Palavras chave" placeholderTextColor={'#fff'} onChangeText={texto => {
                 let novoValor = [...key]
-                novoValor[index] = texto
+                novoValor[index] = texto + ' '
                 setKey(novoValor)
             }} />)) }
             <Button title="+" color={"#1f3324"} onPress={() => {
