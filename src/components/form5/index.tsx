@@ -80,7 +80,7 @@ export function fail(falha:number){
             return '3 - ocasional'
             break;
         case 4:
-            return + '4 - remoto'
+            return '4 - remoto'
             break;
         case 5:
             return '5 - improvável'

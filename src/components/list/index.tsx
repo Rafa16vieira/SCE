@@ -87,7 +87,7 @@ export default function Projetos(props: AliviarDorscreenProps ) {
                     <View style={{marginTop: 100, width: '100%', alignContent: 'center', justifyContent: 'center'}}>
                     <Text style={styles.text}>Nome:</Text>
                     <TextInput style={styles.nome} onChangeText={(nome) => setNome(nome)} placeholder='Insira o nome do projeto' placeholderTextColor={'#fff'}/>
-                    <View style={{width:'80%', alignSelf: 'center'}}>
+                    <View style={{width:'80%', alignSelf: 'center', marginBottom: 40}}>
                     <View style={{marginBottom: 30}}>
                     <Button title='Criar' color={'#9be466'} onPress={() => criacao(nome)}/>
                     </View>

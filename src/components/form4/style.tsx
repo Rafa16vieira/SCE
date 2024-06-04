@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#1f3324',
         width: '100%',
-        height: 30,
+        height: 100,
         alignSelf: 'flex-start',
         borderRadius: 8,
         paddingLeft: 4,
