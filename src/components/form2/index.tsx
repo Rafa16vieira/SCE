@@ -85,7 +85,7 @@ export default function Form2( props: form2props ){
                 <TextInput style={styles.type} onChangeText={(tipo) => setTipo(tipo)} multiline={true} placeholder="Para que serve a evidência?" placeholderTextColor={'#fff'}/>
                 <Text style={styles.text}>Norma Regulatória</Text>
                 <TextInput style={styles.type} onChangeText={(norma) => setNorma(norma)} multiline={true} placeholder="Norma Regulatória" placeholderTextColor={'#fff'}/>
-                <TextInput style={styles.text}>Relações na literatura atual</TextInput>
+                <Text style={styles.text}>Relações na literatura atual</Text>
                 <TextInput style={styles.relations} onChangeText={(relacoes) => setRelacoes(relacoes)} multiline={true} placeholder="Insira as relações" placeholderTextColor={'#fff'}/>
                 <View style={styles.checkBoxArea}>
                     <Text style={styles.text}>Revisao por pares</Text>
