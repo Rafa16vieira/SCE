@@ -26,13 +26,13 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingLeft: 4,
         marginRight: 4,
-        marginBottom: 110,
+        marginBottom: 400,
         color: '#ddd',
     },
     buttons: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 400,
+        marginTop: 10,
         marginBottom: 40
     },
     back: {
@@ -77,7 +77,21 @@ const styles = StyleSheet.create({
         marginRight: 4,
         marginBottom: 10,
         color: '#ddd',
-    }
+    },
+    nome: {
+        borderColor: '#646464',
+        borderWidth: 1,
+        backgroundColor: '#1f3324',
+        width: '100%',
+        height: 30,
+        alignSelf: 'flex-start',
+        borderRadius: 8,
+        paddingLeft: 4,
+        marginRight: 4,
+        marginBottom: 10,
+        color: '#c7ffd8',
+        
+    },
 
 });
 

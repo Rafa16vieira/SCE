@@ -12,58 +12,51 @@ import Projetos from "../list/index";
 import Itens from "../list/itens";
 import Selecao from "@/src/selecao";
 import Evidencias from "../list/evidencias";
+import LoginScreen from "@/src/login/login";
+import RegisterScreen from "@/src/login/registro";
+import Edit from "../list/edit";
 
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<params>();
 
-const Stacks = createNativeStackNavigator<mainParams>();
 
-const Stacker = createNativeStackNavigator<params>();
 
 export type params = {
+    Main: any,
     Projetos: any,
     Itens: {id: any},
-    Evidencias: {id: any, nome: string}
-}
-export type mainParams = {
-    Selecao: any,
-    Form1: {id: any},
+    Evidencias: { nome: string},
+    Criacao: any,
+    Form1: {id: any, projectID: any},
     Form2: { id: any},
     Form3: { id: any},
     Form4: { id: any},
     Form5: { id: any, relevancia: number, cobertura: number, forca: number},
-}
-
-export function Lista( {route: {params}} : any ) {
-    return(
-        <Stacker.Navigator initialRouteName="Projetos" screenOptions={{headerStyle: {backgroundColor: '#c7ffd8'}}}>
-                <Stacker.Screen name="Projetos" component={Projetos}/>
-                <Stacker.Screen name="Itens" component={Itens}/>
-                <Stacker.Screen name="Evidencias" component={Evidencias}/>
-        </Stacker.Navigator>
-    )
-}
-
-export function Setter( {route : {mainParams}} : any ) {
-    return(
-        <Stacks.Navigator initialRouteName="Selecao" screenOptions={{headerShown: false}}>
-            <Stacks.Screen name="Selecao" component={Selecao}/>
-            <Stacks.Screen name="Form1" component={Form1}/>
-            <Stacks.Screen name="Form2" component={Form2}/>
-            <Stacks.Screen name="Form3" component={Form3}/>
-            <Stacks.Screen name="Form4" component={Form4}/>
-            <Stacks.Screen name="Form5" component={Form5}/>
-        </Stacks.Navigator>
-    )
+    Login: any,
+    Registro: any,
+    Edit: { nome: string }
 }
 
 
-export function Navegacao() {
+
+
+
+export function Navegacao(  ) {
     return(                
-                <Stack.Navigator initialRouteName="Main" screenOptions={{headerShown: false}}>
+                <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
+                        <Stack.Screen name="Login" component={LoginScreen}/>
+                        <Stack.Screen name="Registro" component={RegisterScreen}/>
                         <Stack.Screen name="Main" component={Main}/>
-                        <Stack.Screen name="Setter" component={Setter}/>
-                        <Stack.Screen name="Listagem" component={Lista}/>
+                        <Stack.Screen name="Projetos" component={Projetos}/>
+                        <Stack.Screen name="Itens" component={Itens}/>
+                        <Stack.Screen name="Edit" component={Edit}/>
+                        <Stack.Screen name="Evidencias" component={Evidencias}/>
+                        <Stack.Screen name="Criacao" component={Selecao}/>
+                        <Stack.Screen name="Form1" component={Form1}/>
+                        <Stack.Screen name="Form2" component={Form2}/>
+                        <Stack.Screen name="Form3" component={Form3}/>
+                        <Stack.Screen name="Form4" component={Form4}/>
+                        <Stack.Screen name="Form5" component={Form5}/>
                 </Stack.Navigator>
     );
 };

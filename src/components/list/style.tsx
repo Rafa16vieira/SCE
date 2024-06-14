@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         paddingLeft: 4,
         marginRight: 4,
         marginBottom: 10,
-        color: '#c7ffd8',
+        color: '#ddd',
         
     },
     bigField: {
@@ -39,9 +39,10 @@ const styles = StyleSheet.create({
     },
     texto: {
         color: '#1f3324',
-        fontSize: 20,
+        fontSize: 16,
         marginBottom: 10,
-        marginLeft: 2
+        marginLeft: 2,
+        justifyContent: 'center'
     },
     line: {
         marginTop: 30,
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
         borderColor: '#646464',
         borderWidth: 1,
         backgroundColor: '#1f3324',
-        width: '60%',
+        width: '90%',
         height: 30,
         alignSelf: 'center',
         borderRadius: 8,
@@ -75,6 +76,70 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         color: '#c7ffd8',
         
+    },
+    biggestField: {
+        borderColor: '#646464',
+        borderWidth: 1,
+        backgroundColor: '#1f3324',
+        width: '100%',
+        height: 300,
+        alignSelf: 'flex-start',
+        borderRadius: 8,
+        paddingLeft: 4,
+        marginRight: 4,
+        marginBottom: 10,
+        color: '#ddd'
+    },
+    botao: {
+        borderRadius: 100,
+        alignSelf: 'center',
+        height: 30,
+        width: '80%',
+        backgroundColor: '#0c7434',
+        justifyContent: 'center',
+        marginTop: 20
+    },
+    textoB: {
+        color: '#fff',
+        alignSelf: 'center',
+        fontWeight: 'bold'
+    },
+    excluir: {
+        backgroundColor: '#800020',
+        width: "80%",
+        height: 30,
+        justifyContent: 'center',
+        marginRight: 50,
+        borderRadius: 20
+    },
+    editar: {
+        backgroundColor: '#636f65',
+        width: '80%',
+        height: 30,
+        justifyContent: 'center',
+        marginRight: 50,
+        borderRadius: 20
+    },
+    printar: {
+        backgroundColor: '#1f3324',
+        width: '80%',
+        height: 30,
+        justifyContent: 'center',
+        marginRight: 50,
+        borderRadius: 20
+    },
+    bts: {
+        
+        
+        flexDirection: 'row',
+        alignSelf: 'center'
+    },
+    texto1: {
+        color: '#fff',
+        fontSize: 16,
+        marginBottom: 10,
+        marginLeft: 2,
+        justifyContent: 'center'
     },
 })
 

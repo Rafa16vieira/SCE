@@ -5,27 +5,32 @@ import styles from "./style";
 import { Icon } from '@rneui/themed';
 import { Header1 } from "../header";
 import { FieldPath, collection, doc, getDoc, getDocs, setDoc, updateDoc, where } from "firebase/firestore";
-import { db } from "../../config/firebase-config";
+import { firestore, auth } from "../../config/firebase-config";
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { RouteProp } from "@react-navigation/native";
-import { mainParams } from "../navigation";
+import { params } from "../navigation";
 import bg from './../../../assets/images/background.png';
 import { printToFile } from "@/src/getter";
 
 
-export function criacao(importancia: any, falha: any, id: any, selo: string, evidencia: string){
-    updateDoc(doc(db, "forms", id ), {
+
+
+
+export function criacao(importancia: any, falha: any, id: any, selo: string, evidencia: string, avaliador: string){
+    updateDoc(doc(firestore, "forms", id ), {
         importancia: importancia,
         falha: falha,
         selo: selo,
-        evidencia: evidencia
+        evidencia: evidencia,
+        avaliador: avaliador,
+        id: id
     })
 }
 
 
 export interface form5props {
     navigation: any;
-    route: RouteProp<mainParams, "Form5">;
+    route: RouteProp<params, "Form5">;
 }
 
 
@@ -86,13 +91,14 @@ export function fail(falha:number){
             return '5 - improvável'
             break;
         case 6:
-            return  '6 - sem mitigação'
+            return '6 - sem mitigação'
             break;
     }
 }
 
 export default function Form5( props: form5props ){
     const [ showAlert, setShowAlert ] = useState(false)
+    const [ name, setName ] = useState("")
 
     const data = [
         { key: 1, value: '1' },
@@ -124,6 +130,24 @@ export default function Form5( props: form5props ){
     const { id, relevancia, cobertura, forca } = props.route.params
     const newid = String(id)
 
+    
+        useEffect(() => {
+            const fetchUserName = async () => {
+            const user = auth.currentUser;
+            if (user) {
+                try {
+                const userDoc = await getDoc(doc(firestore, 'users', user.uid));
+                if (userDoc.exists()) {
+                    setName(userDoc.data()?.name || 'No Name Found');
+                }
+                } catch (error) {
+                console.error("Error fetching user data: ", error);
+                }
+            }
+            };
+        
+            fetchUserName();
+        }, []);
     
     
 
@@ -163,13 +187,10 @@ export default function Form5( props: form5props ){
                 case 3:
                 case 4:
                     selo = 'bronze'
-                    switch (rcf) {
-                        case 1:
-                        case 3:
-                            evidencia = 'Fraca'
-                        default:
-                            evidencia = 'Mediana'
-                    }
+                    if (rcf == 1 || rcf == 3)
+                            evidencia = 'Fraca';
+                        else
+                            evidencia = 'Mediana';
                     break;
                 case 5:
                 case 6:
@@ -188,31 +209,22 @@ export default function Form5( props: form5props ){
                 case 5:
                 case 4:
                     selo = 'Bronze'
-                    switch (rcf) {
-                        case 1:
-                        case 3:
+                    if(rcf == 1 || rcf == 3)
                             evidencia = 'Fraca'
-                            break;
-                        default:
+                        else
                             evidencia = 'Mediana'
-                            break;
-                    }
+                    
                     break;
                 case 3:
                 case 2:
                 case 1:
                     selo = 'Prata'
-                    switch (rcf) {
-                        case 1:
-                        case 3:
+                    if (rcf == 1 || rcf == 3)
                             evidencia = 'Fraca'
-                        case 2:
-                        case 4:
-                        case 5:
+                    else if(rcf == 2 || rcf == 4 || rcf == 5)
                             evidencia = 'Mediana'
-                        default:
-                            evidencia = 'Importante'
-                    }
+                        else
+                            evidencia = 'Importante'                    
                     break;
             }
             break;
@@ -222,49 +234,36 @@ export default function Form5( props: form5props ){
                 case 6:
                 case 5:
                     selo = 'Bronze'
-                    switch (rcf) {
-                        case 1:
-                        case 3:
+                    if (rcf == 1 || rcf == 3) 
                             evidencia = 'Fraca'
-                            break;
-                        default:
+                    else
                             evidencia = 'Mediana'
-                            break;
-                    }
+                            
+                    
                     break;
                 case 4:
                 case 3:
                     selo = 'Prata'
-                    switch (rcf) {
-                        case 1:
-                        case 3:
+                    if (rcf == 1 || rcf == 3)
                             evidencia = 'Fraca'
-                        case 2:
-                        case 4:
-                        case 5:
+                    else if (rcf == 2 || rcf == 4 || rcf == 5)
                             evidencia = 'Mediana'
-                        default:
+                        else
                             evidencia = 'Importante'
-                    }
+                    
                     break;
                 case 2: 
                 case 1:
                     selo = 'Ouro'
-                    switch (rcf){
-                        case 1:
-                        case 3:
+                    if (rcf == 1 || rcf == 3)
                             evidencia = 'Fraca'
-                        case 2:
-                        case 4:
-                        case 5:
-                        case 7:
+                    else if (rcf == 2 || rcf == 4 || rcf == 5 || rcf == 7)
                             evidencia = 'Mediana'
-                        case 6:
+                    else if (rcf == 6)
                             evidencia = 'Importante'
-                        case 8:
+                    else
                             evidencia = 'Incontestável'
-                    }
-                    break;
+                    
             }
             break;
         case 9:
@@ -272,49 +271,37 @@ export default function Form5( props: form5props ){
             switch (falha){
                 case 6:
                     selo = 'Bronze'
-                    switch (rcf) {
-                        case 1:
-                        case 3:
+                    if (rcf == 1 || rcf == 3) 
                             evidencia = 'Fraca'
-                            break;
-                        default:
-                            evidencia = 'Mediana'
-                            break;
-                    }
+                    else
+                            evidencia = 'Mediana'                    
                     break;
                 case 5:
                 case 4:
                     selo = 'Prata'
-                    switch (rcf) {
-                        case 1:
-                        case 3:
+                    if (rcf == 1 || rcf == 3) 
                             evidencia = 'Fraca'
-                        case 2:
-                        case 4:
-                        case 5:
+                    else if (rcf == 2 || rcf == 4 || rcf == 5)
                             evidencia = 'Mediana'
-                        default:
+                    else
                             evidencia = 'Importante'
-                    }
+                            
+                    
                     break;
                 case 3:
                 case 2: 
                 case 1:
                     selo = 'Ouro'
-                    switch (rcf){
-                        case 1:
-                        case 3:
+                    if (rcf == 1 || rcf == 3)
                             evidencia = 'Fraca'
-                        case 2:
-                        case 4:
-                        case 5:
-                        case 7:
+                    else if (rcf == 2 || rcf == 4 || rcf == 5 || rcf == 7)
                             evidencia = 'Mediana'
-                        case 6:
+                    else if (rcf == 6)
                             evidencia = 'Importante'
-                        case 8:
+                    else
                             evidencia = 'Incontestável'
-                    }
+                            
+                    
                     break;
             }
             break;
@@ -333,15 +320,16 @@ export default function Form5( props: form5props ){
                     <Text style={styles.text}>Probabilidade de falha</Text>
                     <SelectList setSelected={(falha: number) => setFalha(falha)} data={data2} save="key" dropdownStyles={{width: '100%', backgroundColor: '#1f3324', marginBottom: 10, height: 200}} dropdownTextStyles={{color: '#fff'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
                 </View>
+
                 <View style={styles.buttons}>
                     <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form4", {id: newid})}>
                         <Text style={styles.buttonTextBack}>Voltar</Text>
                     </Pressable>
-                    <Pressable style={styles.next} onPressIn={() => criacao(perigo(importancia), fail(falha), newid, selo, evidencia)} onPress={() => setShowAlert(true)}>
+                    <Pressable style={styles.next} onPressIn={() => criacao(perigo(importancia), fail(falha), newid, selo, evidencia, name)} onPress={() => setShowAlert(true)}>
                         <Text style={styles.buttonTextNext}>Confirmar</Text>
                     </Pressable>
                 </View>
-                <AwesomeAlert show={showAlert} showProgress={false} title="Confirmação da evidência" message={stringfinal} closeOnTouchOutside={false} closeOnHardwareBackPress={false} showCancelButton={true} showConfirmButton={true} cancelText="Ver cadastro" confirmText="Voltar ao menu" cancelButtonColor="#152319" confirmButtonColor="#5c996b" onCancelPressed={() => {props.navigation.navigate("Evidencias", {id: newid})}} onConfirmPressed={() => {props.navigation.navigate("Main");}}/>
+                <AwesomeAlert show={showAlert} showProgress={false} title="Confirmação da evidência" message={stringfinal} closeOnTouchOutside={false} closeOnHardwareBackPress={false} showCancelButton={false} showConfirmButton={true} cancelText="Cadastros" confirmText="Voltar ao menu" cancelButtonColor="#152319" confirmButtonColor="#5c996b" onCancelPressed={() => {props.navigation.navigate("Projetos");}} onConfirmPressed={() => {props.navigation.navigate("Main");}}/>
         </View>
         </SafeAreaView>
         </ImageBackground>

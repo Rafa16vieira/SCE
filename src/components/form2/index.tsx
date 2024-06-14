@@ -3,17 +3,17 @@ import { View, Text, Button, TextInput , TouchableOpacity, Pressable, ScrollView
 import { Dropdown } from "react-native-element-dropdown";
 import { Header1 } from "../header";
 import react, { useState } from "react";
-import { db } from "../../config/firebase-config";
+import { firestore } from "../../config/firebase-config";
 import {  collection, doc, getDocs, query, setDoc, updateDoc, where } from "firebase/firestore"; 
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import React from "react";
 import { RouteProp } from "@react-navigation/native";
-import { mainParams } from "../navigation";
+import { params } from "../navigation";
 import bg from './../../../assets/images/background.png'
 
 
 export function criacao(fonte: string, autores: any, data: string, tipo: string, norma: string, relacoes: string, revisao: string, consistencia: string, id: any, ident: string) {
-    updateDoc(doc(db, "forms", id), {
+    updateDoc(doc(firestore, "forms", id), {
         fonte: fonte,
         autores: autores,
         data: data,
@@ -29,7 +29,7 @@ export function criacao(fonte: string, autores: any, data: string, tipo: string,
 
 export interface form2props {
     navigation: any;
-    route: RouteProp<mainParams, "Form2">;
+    route: RouteProp<params, "Form2">;
 }
 
 
@@ -66,7 +66,7 @@ export default function Form2( props: form2props ){
                 <Text style={styles.text}>Fonte</Text>
                 <TextInput style={styles.font} onChangeText={(fonte) => setFonte(fonte)} placeholder="Link da fonte" placeholderTextColor={'#fff'}/>
                 <Text style={styles.text}>Identificação</Text>
-                <TextInput style={styles.type} onChangeText={(ident) => setIdent(ident)} placeholder="Insira a identificação" placeholderTextColor={'#fff'}/>
+                <TextInput style={styles.type} onChangeText={(ident) => setIdent(ident)} multiline={true} placeholder="Insira a identificação" placeholderTextColor={'#fff'}/>
                 <Text style={styles.text}>Autores</Text>
                 {autores.map((valor, index) => (<TextInput key={index} style={styles.author} placeholder="Autor" placeholderTextColor={'#fff'} onChangeText={texto => {
                     let novoValor = [...autores]
@@ -92,9 +92,9 @@ export default function Form2( props: form2props ){
                     <BouncyCheckbox fillColor="#1f3324" iconStyle={{borderColor: "#1f3324"}} onPress={(isChecked: boolean) => {setRevisao("SIM")}} />
                 </View>
                 <Text style={styles.text}>Consistência com a literatura anterior</Text>
-                <TextInput style={styles.date} onChangeText={(consistencia) => setConsistencia(consistencia)} placeholder="Consistência" placeholderTextColor={'#fff'}/>
+                <TextInput style={styles.type} multiline={true} onChangeText={(consistencia) => setConsistencia(consistencia)} placeholder="Consistência" placeholderTextColor={'#fff'}/>
                 <View style={styles.buttons}>
-                    <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form1")}>
+                    <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form1", {id: newid})}>
                         <Text style={styles.buttonTextBack}>Voltar</Text>
                     </Pressable>
                     <Pressable style={styles.next} onPressIn={() => criacao(fonte, autores, data, tipo, norma, relacoes, revisao, consistencia, newid, ident)} onPress={() => props.navigation.navigate("Form3", {id: newid})}>

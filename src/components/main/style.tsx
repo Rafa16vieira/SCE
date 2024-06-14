@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
         padding: 20, 
         height: '100%',
         alignContent: 'center',
+        backgroundColor: 'rgba(255,255,255,0.08)'
     },
     textMain: {
         color: "#152319",
@@ -12,6 +13,13 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         alignSelf: 'center',
         marginTop: 15
+    },
+    textReg: {
+        color: "#152319",
+        fontSize: 20,
+        fontWeight: "bold",
+        alignSelf: 'center',
+        marginTop: 13
     },
     squareMain: {
         borderRadius: 32,
@@ -24,10 +32,11 @@ const styles = StyleSheet.create({
     squareBottom: {
         borderRadius: 32,
         width: 325,
-        height: 250,
+        height: 50,
         backgroundColor: "#3d6647",
-        marginBottom: 150,
-        alignSelf: 'center'
+        marginBottom: 100,
+        alignSelf: 'center',
+        marginTop: 40
     },
     squareSecondary:{
         borderRadius: 12,

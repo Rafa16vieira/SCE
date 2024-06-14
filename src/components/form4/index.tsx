@@ -5,9 +5,9 @@ import styles from "./style";
 import { Icon } from '@rneui/themed';
 import { Header1 } from "../header";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../config/firebase-config";
+import { firestore } from "../../config/firebase-config";
 import { RouteProp } from "@react-navigation/native";
-import { mainParams } from "../navigation";
+import { params } from "../navigation";
 import bg from './../../../assets/images/background.png'
 
 const data = [
@@ -41,7 +41,7 @@ const data4 = [
 ];
 
 export function criacao(sintese: string, fort: string, nalt: string, enf: string, relevancia: number, cobertura: number, forca: number, id: any){
-    updateDoc(doc(db, "forms", id), {
+    updateDoc(doc(firestore, "forms", id), {
         sintese: sintese,
         fortalece: fort,
         naoAltera: nalt,
@@ -88,7 +88,7 @@ export function enf(sintese:number){
 
 export interface form5props {
     navigation: any;
-    route: RouteProp<mainParams, "Form4">;
+    route: RouteProp<params, "Form4">;
 }
 
 
@@ -131,7 +131,7 @@ export default function Form4( props: form5props){
                 <SelectList setSelected={(forca: number) => setForca(forca)} save="key" data={data4} dropdownStyles={{backgroundColor: '#1f3324', height: 100, width: '100%'}} maxHeight={200} dropdownTextStyles={{color: '#fff'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
             </View>
             <View style={styles.buttons}>
-                <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form3")}>
+                <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form3", {id: newid})}>
                     <Text style={styles.buttonTextBack}>Voltar</Text>
                 </Pressable>
                 <Pressable style={styles.next} onPressIn={() => criacao(textsint, fort(sintese), nalt(sintese), enf(sintese), relevancia, cobertura, forca, newid)} onPress={() => props.navigation.navigate("Form5", {id: newid, relevancia: relevancia, cobertura: cobertura, forca: forca})}>

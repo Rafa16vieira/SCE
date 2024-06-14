@@ -5,13 +5,13 @@ import { Icon } from '@rneui/themed';
 import { Header1 } from "../header";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { doc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../config/firebase-config";
+import { firestore } from "../../config/firebase-config";
 import { RouteProp } from "@react-navigation/native";
-import { mainParams } from "../navigation";
+import { params } from "../navigation";
 import bg from './../../../assets/images/background.png'
 
 export function criacao(amostra: string, aplicabilidade: string, usos: string, vieses: string, conflitos: string, id: any) {
-    updateDoc(doc(db, "forms", id), {
+    updateDoc(doc(firestore, "forms", id), {
         amostra: amostra,
         implementacao: aplicabilidade,
         usos: usos,
@@ -22,7 +22,7 @@ export function criacao(amostra: string, aplicabilidade: string, usos: string, v
 
 export interface form3props {
     navigation: any;
-    route: RouteProp<mainParams, "Form3">;
+    route: RouteProp<params, "Form3">;
 }
 
 export default function Form3( props: form3props ){
@@ -54,7 +54,7 @@ export default function Form3( props: form3props ){
                 <Text style={styles.text}>Conflitos de interesse:</Text>
                 <TextInput style={styles.conflitos} onChangeText={(conflitos) => setConflitos(conflitos)} placeholder="Existem conflitos de interesse?" placeholderTextColor={'#fff'}/>
                 <View style={styles.buttons}>
-                <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form2")}>
+                <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form2", {id: newid})}>
                     <Text style={styles.buttonTextBack}>Voltar</Text>
                 </Pressable>
                 <Pressable style={styles.next} onPressIn={() => criacao(amostra, implementacao, usos, vieses, conflitos, newid)} onPress={() => props.navigation.navigate("Form4", {id: newid})}>

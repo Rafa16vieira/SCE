@@ -2,12 +2,10 @@ import { Image, Text, StyleSheet, Platform, Pressable, Keyboard, StatusBar } fro
 import Header from '@/src/components/header';
 import { Header1 } from '@/src/components/header';
 import { Navegacao } from '@/src/components/navigation';
-import { initializeApp } from '@firebase/app';
-import { firebaseConfig } from '@/src/config/firebase-config';
+import React from 'react';
 
 
 export default function HomeScreen() {
-  initializeApp(firebaseConfig)
 
   return (
     

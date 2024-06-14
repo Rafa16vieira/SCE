@@ -3,10 +3,12 @@ import styles from "./style";
 import { useRoute } from "@react-navigation/native";
 import { RouteProp } from '@react-navigation/native';
 import { params } from "../navigation";
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { useEffect } from "react";
-import { db } from "@/src/config/firebase-config";
+import { collection, deleteDoc, doc, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { firestore } from "@/src/config/firebase-config";
 import bg from './../../../assets/images/background.png'
+import { Icon } from "@rneui/themed";
+import { HeaderEvids } from "../header";
 
 
 export interface ItensProps {
@@ -14,53 +16,91 @@ export interface ItensProps {
     route: RouteProp<params, "Itens">;
 }
 
-let evid: any = []
-let newid: string
+export async function exclusao(id: any){
+    await deleteDoc(doc(firestore, "forms", id));
+}
 
-
+function makeid() {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    let counter = 0;
+    while (counter < 200) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
+    }
+    return result;
+}
 
 
 export default function Itens(props: ItensProps){
-
+    const [projects, setProjects] = useState([]);
     //@ts-ignore
     const {id} = props.route.params
     console.log({id})
 
 
-    const getData = async () => {
-        evid = []
-        const q = query(collection(db, 'forms'), where('projetoID', '==', id));
-        const querySnapShot = await getDocs(q);
-        querySnapShot.forEach((doc) => {
-            evid.push(doc.data())
-            newid = doc.id
-            
-        })
-    }
     
-
-    
-
     useEffect(() => {
-        getData();
-        },[])
+        if (id) {
+        const q = query(collection(firestore, 'forms'), where('projetoID', '==', id));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const newProjects : any = [];
+            querySnapshot.forEach((doc) => {
+                newProjects.push(doc.data());
+            });
+            setProjects(newProjects)
+    
+            });
+        }
+    }, [id]);
+
+    
+
 
 
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.formPoint}>
             <ScrollView style={styles.formPoint}>
-                    {evid.map((projeto: any) =>
-                        <View key={projeto.nome}>
-                        
-                            <Text style={styles.texto} key={projeto.nome}>{projeto.nome}</Text>
-                            <Button title={'Ver dados'} color={'#1f3324'} key={projeto.id} onPress={() => {props.navigation.navigate("Evidencias", {id: newid, nome: projeto.nome})}}/>
+                <HeaderEvids/>
+                
+                    {projects.map((projeto: any) =>
+                        <View key={projeto.nome} style={{flexDirection: 'column'}}>
+                            <Pressable>
+                                <View style={styles.smallField}>
+                                    <Text style={styles.texto1} key={projeto.nome}>{projeto.nome}</Text>
+                                </View>
+                            </Pressable>
+                            <View style={styles.bts}>
+                                <Pressable onPress={() => exclusao(projeto.id)}>
+                                    <View style={styles.excluir}>
+                                        <Icon name="delete" type="material" color={'#fff'}/>
+                                    </View>
+                                </Pressable>
+                                <Pressable onPress={() => props.navigation.navigate("Edit", {nome: projeto.nome})}>
+                                    <View style={styles.editar}>
+                                        <Icon name="edit" type="material" color={'#000'}/>
+                                    </View>
+                                </Pressable>
+                                <Pressable onPress={() => props.navigation.navigate("Evidencias", {nome: projeto.nome})}>
+                                    <View style={styles.printar}>
+                                        <Icon name="print" type="material" color={'#fff'}/>
+                                    </View>
+                                </Pressable>
+                            </View>
+                            
                             <View style={styles.line}/>    
                             
                         </View>
                             
                         
                     )}
+                
+                <View style={{marginBottom:100, marginTop: 100}}>
+                    <Button title="Cadastrar Evidência nova" onPress={() => props.navigation.navigate("Form1", {id: makeid(), projectID: id})} color={'#1f3324'}/>
+                    <Button title="Menu" color={'#1f3324'} onPress={() => props.navigation.navigate("Main")}/>
+                </View>
             </ScrollView>
         </SafeAreaView>
         </ImageBackground>

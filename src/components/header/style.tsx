@@ -9,10 +9,11 @@ const styles = StyleSheet.create({
     },
     textHeader: {
         color: "#152319",
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: "bold",
-        alignSelf: 'center',
-        marginTop:15
+        alignSelf: 'flex-end',
+        marginTop:15,
+        marginLeft: 20
     },
     lineHeader: {
         backgroundColor: "#000",
