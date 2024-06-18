@@ -8,11 +8,18 @@ import { collection, doc, getDoc, onSnapshot, query, where, updateDoc } from "fi
 import { auth, firestore } from "@/src/config/firebase-config";
 import { useEffect, useState } from "react";
 import styles from "./style";
+import { perigo, fail } from "../form5";
 
 export interface editProps {
     navigation: any;
     route: RouteProp<params, "Edit">;
 }
+
+let selo: string
+let evidencia: string
+let rcf : number
+
+
 
 export default function Edit(props: editProps) {
     const [evids, setEvids] = useState<any>({});
@@ -22,6 +29,137 @@ export default function Edit(props: editProps) {
 
     //@ts-ignore
     const { nome } = props.route.params;
+
+    function calculateSelo( importancia: string, falha: string){
+    
+
+        switch (importancia) {
+            case '1 - insignificante':
+            case '2 - insignificante':
+            case '3 - insignificante':
+            case '4 - insignificante':
+                switch (falha) {
+                    case '1 - frequente':
+                    case '2 - provável':
+                    case '3 - ocasional':
+                    case '4 - remoto':
+                        return 'Bronze'
+                        break;
+                    case '5 - improvável':
+                    case '6 - sem mitigação':
+                        return 'Cobre'
+                        break;
+                }
+                break;
+            case '5 - marginal':
+            case '6  - marginal':
+                switch (falha){
+                    case '6 - sem mitigação':
+                        return 'Cobre'
+                        break;
+                    case '5 - improvável':
+                    case '4 - remoto':
+                        return 'Bronze'
+                        break;
+                    case '3 - ocasional':
+                    case '2 - provável':
+                    case '1 - frequente':
+                        return 'Prata'                   
+                        break;
+                }
+                break;
+            case '7 - crítico':
+            case '8 - crítico':
+                switch (falha){
+                    case '6 - sem mitigação':
+                    case '5 - improvável':
+                        return 'Bronze'
+                        break;
+                    case '4 - remoto':
+                    case '3 - ocasional':
+                        return 'Prata'
+                        break;
+                    case '2 - provável': 
+                    case '1 - frequente':
+                        return 'Ouro'
+                        break;
+                }
+                break;
+            case '9 - catastrófico':
+            case '10 - catastrófico':
+                switch (falha){
+                    case '6 - sem mitigação':
+                        return 'Bronze'                   
+                        break;
+                    case '5 - improvável':
+                    case '4 - remoto':
+                        return 'Prata'
+                        break;
+                    case '3 - ocasional':
+                    case '2 - provável': 
+                    case '1 - frequente':
+                        return 'Ouro'
+                        
+                }
+                break;
+        }
+    }
+    
+    function calculateEvidencia(relevancia:number, cobertura:number, forca: number, selo: any){
+        if (relevancia > 3 && cobertura > 3 && forca > 3){
+            rcf = 8
+        }
+        else if (relevancia > 3 && cobertura > 3 && forca < 3){
+            rcf = 7
+        }
+        else if (relevancia > 3 && cobertura < 3 && forca > 3){
+            rcf = 6
+        }
+        else if (relevancia > 3 && cobertura < 3 && forca < 3){
+            rcf = 5
+        }
+        else if (relevancia < 3 && cobertura > 3 && forca > 3){
+            rcf = 4
+        }
+        else if (relevancia < 3 && cobertura > 3 && forca < 3){
+            rcf = 3
+        }
+        else if (relevancia < 3 && cobertura < 3 && forca > 3){
+            rcf = 2
+        }
+        else if (relevancia < 3 && cobertura < 3 && forca < 3){
+            rcf = 1
+        }
+    
+    
+        if (selo == 'Ouro'){
+            if (rcf == 1 || rcf == 3)
+                    return 'Fraca'
+            else if (rcf == 2 || rcf == 4 || rcf == 5 || rcf == 7)
+                    return 'Mediana'
+            else if (rcf == 6)
+                    return 'Importante'
+            else
+                    return 'Incontestável'
+        }
+        else if (selo == 'Prata'){
+            if (rcf == 1 || rcf == 3) 
+                    evidencia = 'Fraca'
+            else if (rcf == 2 || rcf == 4 || rcf == 5)
+                    return 'Mediana'
+            else
+                    return 'Importante'
+        }
+        else if (selo == 'Bronze'){
+            if (rcf == 1 || rcf == 3) 
+                    return 'Fraca'
+            else
+                    return 'Mediana' 
+        }
+        else if (selo == 'Cobre'){
+            return 'Fraca'
+        }
+    }
 
     useEffect(() => {
         const fetchUserName = async () => {
@@ -38,6 +176,19 @@ export default function Edit(props: editProps) {
             }
             setLoading(false);
         };
+
+        useEffect(() => {
+            const newImportancia = perigo(evids.importancia || 0);
+            const newFalha = fail(evids.falha || 0);
+            const newSelo = calculateSelo(evids.importancia, evids.falha);
+            const newEvidencia = calculateEvidencia(evids.relevancia || 0, evids.cobertura || 0, evids.forca || 0, newSelo);
+    
+            setEvids((prev: any) => ({
+                ...prev,
+                selo: newSelo,
+                evidencia: newEvidencia,
+            }));
+        }, [evids.importancia, evids.falha, evids.relevancia, evids.cobertura, evids.forca]);
 
         fetchUserName();
         if (nome) {
@@ -71,6 +222,7 @@ export default function Edit(props: editProps) {
             }
         }
     };
+    
 
     const handleInputChange = (field: string, value: string | number | boolean) => {
         setEvids((prev: any) => ({
@@ -86,6 +238,163 @@ export default function Edit(props: editProps) {
             [field]: arrayValue
         }));
     };
+
+    if (evids.relevancia > 3 && evids.cobertura > 3 && evids.forca > 3){
+        rcf = 8
+    }
+    else if (evids.relevancia > 3 && evids.cobertura > 3 && evids.forca < 3){
+        rcf = 7
+    }
+    else if (evids.relevancia > 3 && evids.cobertura < 3 && evids.forca > 3){
+        rcf = 6
+    }
+    else if (evids.relevancia > 3 && evids.cobertura < 3 && evids.forca < 3){
+        rcf = 5
+    }
+    else if (evids.relevancia < 3 && evids.cobertura > 3 && evids.forca > 3){
+        rcf = 4
+    }
+    else if (evids.relevancia < 3 && evids.cobertura > 3 && evids.forca < 3){
+        rcf = 3
+    }
+    else if (evids.relevancia < 3 && evids.cobertura < 3 && evids.forca > 3){
+        rcf = 2
+    }
+    else if (evids.relevancia < 3 && evids.cobertura < 3 && evids.forca < 3){
+        rcf = 1
+    }
+
+    switch (evids.importancia) {
+        case '1 - insignificante':
+        case '2 - insignificante':
+        case '3 - insignificante':
+        case '4 - insignificante':
+            switch (evids.falha) {
+                case '1 - frequente':
+                case '2 - provável':
+                case '3 - ocasional':
+                case '4 - remoto':
+                    selo = 'bronze'
+                    if (rcf == 1 || rcf == 3)
+                            evidencia = 'Fraca';
+                        else
+                            evidencia = 'Mediana';
+                    break;
+                case '5 - improvável':
+                case '6 - sem mitigação':
+                    selo = 'Cobre'
+                    evidencia = 'Fraca'
+                    break;
+            }
+            break;
+        case '5 - marginal':
+        case '6  - marginal':
+            switch (evids.falha){
+                case '6 - sem mitigação':
+                    selo = 'Cobre'
+                    evidencia = 'Fraca'
+                    break;
+                case '5 - improvável':
+                case '4 - remoto':
+                    selo = 'Bronze'
+                    if(rcf == 1 || rcf == 3)
+                            evidencia = 'Fraca'
+                        else
+                            evidencia = 'Mediana'
+                    
+                    break;
+                case '3 - ocasional':
+                case '2 - provável':
+                case '1 - frequente':
+                    selo = 'Prata'
+                    if (rcf == 1 || rcf == 3)
+                            evidencia = 'Fraca'
+                    else if(rcf == 2 || rcf == 4 || rcf == 5)
+                            evidencia = 'Mediana'
+                        else
+                            evidencia = 'Importante'                    
+                    break;
+            }
+            break;
+        case '7 - crítico':
+        case '8 - crítico':
+            switch (evids.falha){
+                case '6 - sem mitigação':
+                case '5 - improvável':
+                    selo = 'Bronze'
+                    if (rcf == 1 || rcf == 3) 
+                            evidencia = 'Fraca'
+                    else
+                            evidencia = 'Mediana'
+                            
+                    
+                    break;
+                case '4 - remoto':
+                case '3 - ocasional':
+                    selo = 'Prata'
+                    if (rcf == 1 || rcf == 3)
+                            evidencia = 'Fraca'
+                    else if (rcf == 2 || rcf == 4 || rcf == 5)
+                            evidencia = 'Mediana'
+                        else
+                            evidencia = 'Importante'
+                    
+                    break;
+                case '2 - provável': 
+                case '1 - frequente':
+                    selo = 'Ouro'
+                    if (rcf == 1 || rcf == 3)
+                            evidencia = 'Fraca'
+                    else if (rcf == 2 || rcf == 4 || rcf == 5 || rcf == 7)
+                            evidencia = 'Mediana'
+                    else if (rcf == 6)
+                            evidencia = 'Importante'
+                    else
+                            evidencia = 'Incontestável'
+                    
+            }
+            break;
+        case '9 - catastrófico':
+        case '10 - catastrófico':
+            switch (evids.falha){
+                case '6 - sem mitigação':
+                    selo = 'Bronze'
+                    if (rcf == 1 || rcf == 3) 
+                            evidencia = 'Fraca'
+                    else
+                            evidencia = 'Mediana'                    
+                    break;
+                case '5 - improvável':
+                case '4 - remoto':
+                    selo = 'Prata'
+                    if (rcf == 1 || rcf == 3) 
+                            evidencia = 'Fraca'
+                    else if (rcf == 2 || rcf == 4 || rcf == 5)
+                            evidencia = 'Mediana'
+                    else
+                            evidencia = 'Importante'
+                            
+                    
+                    break;
+                case '3 - ocasional':
+                case '2 - provável': 
+                case '1 - frequente':
+                    selo = 'Ouro'
+                    if (rcf == 1 || rcf == 3)
+                            evidencia = 'Fraca'
+                    else if (rcf == 2 || rcf == 4 || rcf == 5 || rcf == 7)
+                            evidencia = 'Mediana'
+                    else if (rcf == 6)
+                            evidencia = 'Importante'
+                    else
+                            evidencia = 'Incontestável'
+                            
+                    
+                    break;
+            }
+            break;
+    }
+    
 
     return (
         <ImageBackground style={{flex: 1}} source={require("../../../assets/images/background.png")}>
@@ -219,15 +528,33 @@ export default function Edit(props: editProps) {
                         value={evids.sintese || ''}
                         onChangeText={(text) => handleInputChange('sintese', text)}
                     />
-                    <SelectList
-                        dropdownStyles={{backgroundColor: '#1f3324', height: 100, width: '100%'}} maxHeight={200} dropdownTextStyles={{color: '#fff'}} boxStyles={{backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1, width: '100%'}} inputStyles={{color: '#fff'}} search={false}
-                        setSelected={(value: string) => handleInputChange('sintese', value)}
-                        data={[
-                            { key: 'Fortalece a compreensão', value: 'Fortalece a compreensão' },
-                            { key: 'Não altera a compreensão', value: 'Não altera a compreensão' },
-                            { key: 'Enfraquece a compreensão', value: 'Enfraquece a compreensão' },
-                        ]}
-                        defaultOption={{ key: evids.sintese || '', value: evids.sintese || '' }} />
+                    
+                        <Text style={styles.textocheck}>A evidência...</Text>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.textocheck}>Fortalece a compreensão</Text>
+                            <BouncyCheckbox
+                                isChecked={evids.fortalece || false}
+                                onPress={(newValue: boolean) => handleInputChange('fortalece', newValue)}
+                                fillColor="#1f3324"
+                            />
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.textocheck}>Não altera a compreensão</Text>
+                            <BouncyCheckbox
+                                isChecked={evids.naoAltera || false}
+                                onPress={(newValue: boolean) => handleInputChange('naoAltera', newValue)}
+                                fillColor="#1f3324"
+                            />
+                        </View>
+                        <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.textocheck}>Enfraquece a compreensão</Text>
+                            <BouncyCheckbox
+                                isChecked={evids.enfraquece || false}
+                                onPress={(newValue: boolean) => handleInputChange('enfraquece', newValue)}
+                                fillColor="#1f3324"
+                            />
+                        </View>
+                    
                     <Text style={styles.texto}>Relevância:</Text>
                     <SelectList
                         dropdownStyles={{backgroundColor: '#1f3324', height: 100, width: '100%'}} maxHeight={200} dropdownTextStyles={{color: '#fff'}} boxStyles={{backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1, width: '100%'}} inputStyles={{color: '#fff'}} search={false} setSelected={(value: number) => handleInputChange('relevancia', value)} data={[{ key: 1, value: 1}, {key: 2, value: 2}, {key: 3, value: 3}, {key: 4, value: 4}, {key: 5, value: 5}]} defaultOption={{ key: (evids.relevancia || '').toString(), value: evids.relevancia || '' }}/>
@@ -242,14 +569,16 @@ export default function Edit(props: editProps) {
                     <Text style={styles.texto}>Selo:</Text>
                     <TextInput
                         style={styles.smallField}
-                        value={evids.selo || ''}
+                        value={evids.selo || selo}
                         onChangeText={(text) => handleInputChange('selo', text)}
+                        editable={false}
                     />
                     <Text style={styles.texto}>Evidencia:</Text>
                     <TextInput
                         style={styles.smallField}
-                        value={evids.evidencia || ''}
+                        value={evids.evidencia || evidencia}
                         onChangeText={(text) => handleInputChange('evidencia', text)}
+                        editable={false}
                     />
                     <Text style={styles.texto}>Avaliador:</Text>
                     <TextInput

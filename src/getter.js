@@ -34,10 +34,15 @@ export const printToFile = async (
                     padding: 8px;
                     word-wrap: break-word;
                 }
-
-                tr:nth-child(even) {
-                    background-color: #f2f2f2;
+                tr {
+                    background-color: #f0f0f0; /* cor de fundo mais clara para títulos */
+                    font-weight: bold;
                 }
+
+                tr.dark {
+                    background-color: #c0c0c0; /* cor de fundo mais escura para títulos */
+                }
+
 
                 pre {
                     font-family: Arial, sans-serif;
@@ -60,146 +65,151 @@ export const printToFile = async (
         </head>
         <body>
             <table>
-                <tr>
-                    <th colspan="4" style="font-weight: bold; text-align: center;">CLASSIFICAÇÃO DA EVIDÊNCIA</th>
-                </tr>
-                <tr>
-                    <th>Nome</th>
-                    <td style="width: 50%;">${nome}</td>
-                    <th class="rotate" rowspan="4">ETAPA DE INTRODUÇÃO</th>
-                </tr>
-                <tr>
-                    <th>Palavras-chave</th>
-                    <td>${key}</td>
-                </tr>
-                <tr>
-                    <th>Contextualização</th>
-                    <td>${context}</td>
-                </tr>
-                <tr>
-                    <th>Propósito</th>
-                    <td><pre>${purpose}</pre></td>
-                </tr>
-                <tr>
-                    <th>Identificação</th>
-                    <td>${identificacao}</td>
-                    <th class="rotate" rowspan="10">ETAPA DE APRESENTAÇÃO</th>
-                </tr>
-                <tr>
-                    <th>Fonte</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th>Autores</th>
-                    <td>${autores}</td>
-                </tr>
-                <tr>
-                    <th>Data</th>
-                    <td>${data}</td>
-                </tr>
-                <tr>
-                    <th>Tipo</th>
-                    <td>${tipo}</td>
-                </tr>
-                <tr>
-                    <th>Norma Regulatória</th>
-                    <td><pre>${norma}</pre></td>
-                </tr>
-                <tr>
-                    <th>Link da fonte</th>
-                    <td>${link}</td>
-                </tr>
-                <tr>
-                    <th style="font-weight: bold;">Contextualizar</th>
-                    <td>${contexto}</td>
-                </tr>
-                <tr>
-                    <th style="font-weight: bold;">Revisão por pares</th>
-                    <td>${revisao}</td>
-                </tr>
-                <tr>
-                    <th style="font-weight: bold;">Consistência</th>
-                    <td>${consistencia}</td>
-                </tr>
-                <tr>
-                    <th style="font-weight: bolder;">Metodologia</th>
-                    <td></td>
-                    <th class="rotate" rowspan="6">ETAPA DE ANÁLISE CRÍTICA</th>
-                </tr>
-                <tr>
-                    <th>Texto de amostra</th>
-                    <td>${amostra}</td>
-                </tr>
-                <tr>
-                    <th>Usos conhecidos</th>
-                    <td><pre>${usos}</pre></td>
-                </tr>
-                <tr>
-                    <th>Implementação</th>
-                    <td>${implementacao}</td>
-                </tr>
-                <tr>
-                    <th>Possíveis Viéses</th>
-                    <td>${vieses}</td>
-                </tr>
-                <tr>
-                    <th>Conflitos de interesse</th>
-                    <td>${conflitos}</td>
-                </tr>
-                <tr>
-                    <th>Sintese da análise</th>
-                    <td>${sintese}</td>
-                    <th class="rotate" rowspan="8">ETAPA DA CLASSIFICAÇÃO</th>
-                </tr>
-                <tr>
-                    <th style="font-weight: bold;">A evidência</th>
-                    <td></td>
-                </tr>
-                <tr>
-                    <th style="text-align: center;">Fortalece a compreensão</th>
-                    <td>${fort}</td>
-                </tr>
-                <tr>
-                    <th style="text-align: center;">Não altera a compreensão</th>
-                    <td>${nalt}</td>
-                </tr>
-                <tr>
-                    <th style="text-align: center;">Enfraquece a compreensão</th>
-                    <td>${enf}</td>
-                </tr>
-                <tr>
-                    <th style="font-weight: bolder;">RELEVÂNCIA (R)</th>
-                    <td>${relevancia}</td>
-                </tr>
-                <tr>
-                    <th style="font-weight: bolder;">COBERTURA (C)</th>
-                    <td>${cobertura}</td>
-                </tr>
-                <tr>
-                    <th style="font-weight: bolder;">FORÇA (F)</th>
-                    <td>${forca}</td>
-                </tr>
-                <tr>
-                    <th style="font-weight: bolder;">GRAU DO PERIGO (GP)</th>
-                    <td>${perigo}</td>
-                    <th class="rotate" rowspan="4">ETAPA<BR> DO CÁLCULO<BR> DA RELEVÂNCIA</th>
-                </tr>
-                <tr>
-                    <th style="font-weight: bolder;">PROBABILIDADE DE FALHAS (PF)</th>
-                    <td>${falha}</td>
-                </tr>
-                <tr>
-                    <th style="font-weight: bolder;">SELO DA EVIDÊNCIA</th>
-                    <td>${selo}</td>
-                </tr>
-                <tr>
-                    <th style="font-weight: bolder;">CLASSIFICAÇÃO DA EVIDÊNCIA</th>
-                    <td style="font-weight: bolder;">${classificacao}</td>
-                </tr>
-                <tr>
-                    <th style="font-weight: bolder;">Avaliador</th>
-                    <td colspan="2">${avaliador}</td>
-                </tr>
+                <!-- Linhas mais escuras -->
+        <tr class="dark">
+            <th colspan="4" style="text-align: center;">CLASSIFICAÇÃO DA EVIDÊNCIA</th>
+        </tr>
+        <tr>
+            <th>Nome</th>
+            <td style="width: 50%;">${nome}</td>
+            <th class="rotate" rowspan="4">ETAPA DE INTRODUÇÃO</th>
+        </tr>
+        <tr>
+            <th>Palavras-chave</th>
+            <td>${key}</td>
+        </tr>
+        <tr>
+            <th>Contextualização</th>
+            <td>${context}</td>
+        </tr>
+        <tr>
+            <th>Propósito</th>
+            <td><pre>${purpose}</pre></td>
+        </tr>
+        <tr class="dark">
+            <th>Identificação</th>
+            <td>${identificacao}</td>
+            <th class="rotate dark" rowspan="10">ETAPA DE APRESENTAÇÃO</th>
+        </tr>
+        <tr class="dark">
+            <th>Fonte</th>
+            <td></td>
+        </tr>
+        <tr class="dark">
+            <th>Autores</th>
+            <td>${autores}</td>
+        </tr>
+        <tr class="dark">
+            <th>Data</th>
+            <td>${data}</td>
+        </tr>
+        <tr class="dark">
+            <th>Tipo</th>
+            <td>${tipo}</td>
+        </tr>
+        <tr class="dark">
+            <th>Norma Regulatória</th>
+            <td><pre>${norma}</pre></td>
+        </tr>
+        <tr class="dark">
+            <th>Link da fonte</th>
+            <td>${link}</td>
+        </tr>
+        <tr class="dark">
+            <th style="font-weight: bold;">Contextualizar</th>
+            <td>${contexto}</td>
+        </tr>
+        <tr class="dark">
+            <th style="font-weight: bold;">Revisão por pares</th>
+            <td>${revisao}</td>
+        </tr>
+        <tr class="dark">
+            <th style="font-weight: bold;">Consistência</th>
+            <td>${consistencia}</td>
+        </tr>
+        <!-- Linhas mais claras -->
+        <tr>
+            <th style="font-weight: bolder;">Metodologia</th>
+            <td></td>
+            <th class="rotate" rowspan="6">ETAPA DE ANÁLISE CRÍTICA</th>
+        </tr>
+        <tr>
+            <th>Texto de amostra</th>
+            <td>${amostra}</td>
+        </tr>
+        <tr>
+            <th>Usos conhecidos</th>
+            <td><pre>${usos}</pre></td>
+        </tr>
+        <tr>
+            <th>Implementação</th>
+            <td>${implementacao}</td>
+        </tr>
+        <tr>
+            <th>Possíveis Viéses</th>
+            <td>${vieses}</td>
+        </tr>
+        <tr>
+            <th>Conflitos de interesse</th>
+            <td>${conflitos}</td>
+        </tr>
+        <!-- Linhas mais escuras -->
+        <tr class="dark">
+            <th>Síntese da análise</th>
+            <td>${sintese}</td>
+            <th class="rotate dark" rowspan="8">ETAPA DA CLASSIFICAÇÃO</th>
+        </tr>
+        <tr class="dark">
+            <th style="font-weight: bold;">A evidência</th>
+            <td></td>
+        </tr>
+        <tr class="dark">
+            <th style="text-align: center;">Fortalece a compreensão</th>
+            <td>${fort}</td>
+        </tr>
+        <tr class="dark">
+            <th style="text-align: center;">Não altera a compreensão</th>
+            <td>${nalt}</td>
+        </tr>
+        <tr class="dark">
+            <th style="text-align: center;">Enfraquece a compreensão</th>
+            <td>${enf}</td>
+        </tr>
+        <tr class="dark">
+            <th style="font-weight: bolder;">RELEVÂNCIA (R)</th>
+            <td>${relevancia}</td>
+        </tr>
+        <tr class="dark">
+            <th style="font-weight: bolder;">COBERTURA (C)</th>
+            <td>${cobertura}</td>
+        </tr>
+        <tr class="dark">
+            <th style="font-weight: bolder;">FORÇA (F)</th>
+            <td>${forca}</td>
+        </tr>
+        <!-- Linhas mais claras -->
+        <tr>
+            <th style="font-weight: bolder;">GRAU DO PERIGO (GP)</th>
+            <td>${perigo}</td>
+            <th class="rotate" rowspan="4">ETAPA<BR>DO CÁLCULO<BR>DA RELEVÂNCIA</th>
+        </tr>
+        <tr>
+            <th style="font-weight: bolder;">PROBABILIDADE DE FALHAS (PF)</th>
+            <td>${falha}</td>
+        </tr>
+        <tr>
+            <th style="font-weight: bolder;">SELO DA EVIDÊNCIA</th>
+            <td>${selo}</td>
+        </tr>
+        <tr>
+            <th style="font-weight: bolder;">CLASSIFICAÇÃO DA EVIDÊNCIA</th>
+            <td style="font-weight: bolder;">${classificacao}</td>
+        </tr>
+        <!-- Linha mais escura -->
+        <tr class="dark">
+            <th style="font-weight: bolder;">AVALIADOR</th>
+            <td colspan="2">${avaliador}</td>
+        </tr>
             </table>
         </body>
     </html>

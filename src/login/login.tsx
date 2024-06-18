@@ -10,15 +10,47 @@ const LoginScreen = ({ navigation }: any) => {
     const scrollViewRef = useRef<ScrollView>(null);
 
     const handleLogin = () => {
+        // Supondo que 'login' e 'senha' sejam obtidos de campos de entrada do usuário
         const email = `${login}@example.com`;
-
-        signInWithEmailAndPassword(auth, email, senha)
-        .then(() => {
-            navigation.navigate('Main');
-        })
-        .catch(error => {
-            Alert.alert('Login Failed', error.message);
-        });
+        const password = senha;
+    
+        // Validação de entrada
+        if (!login || !senha) {
+            Alert.alert('Erro', 'Por favor, insira email e senha.');
+            return;
+        }
+    
+        // Login com email e senha usando a Autenticação Firebase
+        signInWithEmailAndPassword(auth, email, password)
+            .then(() => {
+                // Navegar para a tela 'Main' após login bem-sucedido
+                navigation.navigate('Main');
+            })
+            .catch(error => {
+                // Lidar com erros comuns
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        Alert.alert('Login Falhou', 'Usuário não encontrado.');
+                        break;
+                    case 'auth/wrong-password':
+                        Alert.alert('Login Falhou', 'Senha incorreta.');
+                        break;
+                    case 'auth/invalid-email':
+                        Alert.alert('Login Falhou', 'Email inválido.');
+                        break;
+                    case 'auth/user-disabled':
+                        Alert.alert('Login Falhou', 'Usuário desativado.');
+                        break;
+                    case 'auth/network-request-failed':
+                        Alert.alert('Login Falhou', 'Conexão instável. Verifique sua conexão de internet.');
+                        break;
+                    case 'auth/email-already-in-use':
+                        Alert.alert('Login Falhou', 'O email já está em uso.');
+                        break;
+                    default:
+                        Alert.alert('Login Falhou', 'Ocorreu um erro inesperado. Tente novamente mais tarde.');
+                }
+            });
     };
 
     return (

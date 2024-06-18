@@ -89,7 +89,7 @@ export default function Form2( props: form2props ){
                 <TextInput style={styles.relations} onChangeText={(relacoes) => setRelacoes(relacoes)} multiline={true} placeholder="Insira a contextualização" placeholderTextColor={'#fff'}/>
                 <View style={styles.checkBoxArea}>
                     <Text style={styles.text}>Revisao por pares</Text>
-                    <BouncyCheckbox fillColor="#1f3324" iconStyle={{borderColor: "#1f3324"}} onPress={(isChecked: boolean) => {setRevisao("SIM")}} />
+                    <BouncyCheckbox fillColor="#1f3324" iconStyle={{ marginLeft: 10, borderColor: "#1f3324"}} onPress={(isChecked: boolean) => { setRevisao(isChecked ? "SIM" : "NÃO") }} />
                 </View>
                 <Text style={styles.text}>Consistência com a literatura anterior</Text>
                 <TextInput style={styles.type} multiline={true} onChangeText={(consistencia) => setConsistencia(consistencia)} placeholder="Consistência" placeholderTextColor={'#fff'}/>

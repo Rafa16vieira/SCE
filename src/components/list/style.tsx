@@ -147,6 +147,27 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 4,
     },
+    sample: {
+        marginRight: 4,
+        marginBottom: 20,
+    },
+    textocheck: {
+        alignSelf: 'flex-start',
+        width: 320,
+        marginTop: -5,
+        marginVertical: 30,
+        left: 3,
+        fontSize: 16,
+        color: '#1f3324',
+    },
+    dropdown: {
+        backgroundColor: '#1f3324',
+        borderColor: '#646464',
+        borderWidth: 1,
+        borderRadius: 4,
+        padding: 8,
+        color: '#fff'
+    },
 })
 
 export default styles

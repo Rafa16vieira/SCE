@@ -25,7 +25,29 @@ const RegisterScreen = ({ navigation }: any) => {
                 navigation.navigate('Main');
             })
             .catch(error => {
-                Alert.alert('Registration Failed', error.message);
+                // Lidar com erros comuns
+                switch (error.code) {
+                    case 'auth/user-not-found':
+                        Alert.alert('Login Falhou', 'Usuário não encontrado.');
+                        break;
+                    case 'auth/wrong-password':
+                        Alert.alert('Login Falhou', 'Senha incorreta.');
+                        break;
+                    case 'auth/invalid-email':
+                        Alert.alert('Login Falhou', 'Email inválido.');
+                        break;
+                    case 'auth/user-disabled':
+                        Alert.alert('Login Falhou', 'Usuário desativado.');
+                        break;
+                    case 'auth/network-request-failed':
+                        Alert.alert('Login Falhou', 'Conexão instável. Verifique sua conexão de internet.');
+                        break;
+                    case 'auth/email-already-in-use':
+                        Alert.alert('Login Falhou', 'O usuário já está em uso.');
+                        break;
+                    default:
+                        Alert.alert('Login Falhou', 'Ocorreu um erro inesperado. Tente novamente mais tarde.');
+                }
             });
         }
 
