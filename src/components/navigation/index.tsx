@@ -16,10 +16,7 @@ import LoginScreen from "@/src/login/login";
 import RegisterScreen from "@/src/login/registro";
 import Edit from "../list/edit";
 
-
 const Stack = createNativeStackNavigator<params>();
-
-
 
 export type params = {
     Main: any,

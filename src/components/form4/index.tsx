@@ -15,41 +15,28 @@ import { Dropdown } from 'react-native-element-dropdown';
 
 
 const data2 = [
-    { key: 1, value: '1 (irrelevante)' },
-    { key: 2, value: '2' },
-    { key: 3, value: '3' },
-    { key: 4, value: '4' },
-    { key: 5, value: '5 (relevante)' }
+    { key: 1, value: '1 (irrelevante)', label: '1 (irrelevante)' },
+    { key: 2, value: '2', label: '2' },
+    { key: 3, value: '3', label: '3' },
+    { key: 4, value: '4', label: '4' },
+    { key: 5, value: '5 (relevante)', label: '5 (relevante)' }
 ];
 
 const data3 = [
-    { key: 1, value: '1 (não cobre)' },
-    { key: 2, value: '2' },
-    { key: 3, value: '3' },
-    { key: 4, value: '4' },
-    { key: 5, value: '5 (cobre)' }
+    { key: 1, value: '1 (não cobre)', label: '1 (não cobre)' },
+    { key: 2, value: '2', label: '2' },
+    { key: 3, value: '3', label: '3' },
+    { key: 4, value: '4', label: '4' },
+    { key: 5, value: '5 (cobre)', label: '5 (cobre)' }
 ];
 
 const data4 = [
-    { key: 1, value: '1 (fraco)' },
-    { key: 2, value: '2' },
-    { key: 3, value: '3' },
-    { key: 4, value: '4' },
-    { key: 5, value: '5 (forte)' }
+    { key: 1, value: '1 (fraco)', label: '1 (fraco)' },
+    { key: 2, value: '2', label: '2' },
+    { key: 3, value: '3', label: '3' },
+    { key: 4, value: '4', label: '4' },
+    { key: 5, value: '5 (forte)', label: '5 (forte)' }
 ];
-
-export function criacao(sintese: string, fort: string, nalt: string, enf: string, relevancia: number, cobertura: number, forca: number, id: any){
-    updateDoc(doc(firestore, "forms", id), {
-        sintese: sintese,
-        fortalece: fort,
-        naoAltera: nalt,
-        enfraquece: enf,
-        relevancia: relevancia,
-        cobertura: cobertura,
-        forca: forca
-    })
-
-}
 
 
 export interface form5props {
@@ -66,6 +53,19 @@ export default function Form4( props: form5props){
     const [relevancia, setRelevancia] = useState<string | null>(null);
     const [cobertura, setCobertura] = useState<string | null>(null);
     const [forca, setForca] = useState<string | null>(null);
+
+    const criacao = async (sintese: string, fort: string, nalt: string, enf: string, relevancia: number, cobertura: number, forca: number, id: any) => {
+        updateDoc(doc(firestore, "forms", id), {
+            sintese: sintese,
+            fortalece: fort,
+            naoAltera: nalt,
+            enfraquece: enf,
+            relevancia: relevancia,
+            cobertura: cobertura,
+            forca: forca
+        })
+    
+    }
 
 
     //@ts-ignore
