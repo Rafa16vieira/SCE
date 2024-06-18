@@ -36,7 +36,7 @@ const LoginScreen = ({ navigation }: any) => {
                         Alert.alert('Login Falhou', 'Senha incorreta.');
                         break;
                     case 'auth/invalid-email':
-                        Alert.alert('Login Falhou', 'Email inválido.');
+                        Alert.alert('Login Falhou', 'Insira apenas um login, não um e-mail.');
                         break;
                     case 'auth/user-disabled':
                         Alert.alert('Login Falhou', 'Usuário desativado.');
