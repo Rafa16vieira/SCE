@@ -7,7 +7,7 @@ import { collection, doc, getDocs, query, setDoc, updateDoc, where } from "fireb
 import { RouteProp } from "@react-navigation/native";
 import { params } from "../navigation";
 import { Utils } from "@nativescript/core";
-import bg from './../../../assets/images/background.png'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export function criacao(nome: string, key: any, descricao: string, proposito: string, id: string, projetoID: string) {
     const projectDoc = doc(firestore, "forms", id)
@@ -50,7 +50,7 @@ export default function Form1(props: form1props){
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}} style={{flex: 1}}>
         <SafeAreaView style={styles.formPoint}>
             <Header1/>
-            <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
+            <KeyboardAwareScrollView keyboardDismissMode="on-drag" style={styles.formPoint} extraScrollHeight={100}>
             
                 <Text style={styles.text}>Nome</Text>
                 <TextInput style={styles.nome} onChangeText={nome => setNome(nome)} placeholder="Nomear evidência" placeholderTextColor={'#fff'}/>
@@ -65,8 +65,8 @@ export default function Form1(props: form1props){
                     novoValor.push('')
                     setKey(novoValor)
                 }} />
-                <Text style={styles.text}>Descrição</Text>
-                <TextInput style={styles.description} onChangeText={(descricao) => setDescricao(descricao)} multiline={true} numberOfLines={5} placeholder="Descrição breve" placeholderTextColor={'#fff'}/>
+                <Text style={styles.text}>Contextualização</Text>
+                <TextInput style={styles.description} onChangeText={(descricao) => setDescricao(descricao)} multiline={true} numberOfLines={5} placeholder="Contextualização breve" placeholderTextColor={'#fff'}/>
                 <Text style={styles.text}>Propósito</Text>
                 <TextInput style={styles.purpose} onChangeText={(proposito) => setProposito(proposito)} multiline={true} numberOfLines={3} placeholder="Para que o serve?" placeholderTextColor={'#fff'}/>
                 <View style={styles.buttons}>
@@ -77,7 +77,7 @@ export default function Form1(props: form1props){
                         <Text style={styles.buttonTextNext}>Avançar</Text>
                     </Pressable>
                 </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         </SafeAreaView>
         </ImageBackground>
     );

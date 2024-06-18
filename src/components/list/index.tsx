@@ -56,8 +56,13 @@ export default function Projetos(props: AliviarDorscreenProps ) {
                             
                         
                     )}
+                    
                     <View style={{marginTop: 100, width: '100%', alignSelf: 'baseline', marginBottom:50}}>
-                        <Button title={"Menu"} color='#1f3324' onPress={() =>  {props.navigation.navigate("Main")}}/>
+                        <Pressable onPress={() => props.navigation.navigate("Main")}>
+                            <View style={styles.botao}>
+                                <Text style={styles.textoB}>Menu</Text>
+                            </View>
+                        </Pressable>
                     </View>
                 </View>
         </ScrollView>
@@ -162,5 +167,19 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         height: 2,
         margin: 5
+    },
+    botao: {
+        borderRadius: 100,
+        alignSelf: 'center',
+        height: 30,
+        width: '80%',
+        backgroundColor: '#3d6647',
+        justifyContent: 'center',
+        marginTop: 20,
+    },
+    textoB: {
+        color: '#fff',
+        alignSelf: 'center',
+        fontWeight: 'bold'
     },
 });

@@ -138,7 +138,7 @@ export default function Form5( props: form5props ){
                 try {
                 const userDoc = await getDoc(doc(firestore, 'users', user.uid));
                 if (userDoc.exists()) {
-                    setName(userDoc.data()?.name || 'No Name Found');
+                    setName(userDoc.data()?.nome || 'No Name Found');
                 }
                 } catch (error) {
                 console.error("Error fetching user data: ", error);
@@ -316,9 +316,9 @@ export default function Form5( props: form5props ){
             <Header1/>
                 <View style={styles.sample}>
                     <Text style={styles.text}>Determinar grau de importância</Text>
-                    <SelectList setSelected={(importancia: number) => setImportancia(importancia)} data={data} save="key" dropdownStyles={{width: '100%', backgroundColor: '#1f3324', marginBottom: 10, height: 200}} maxHeight={200} dropdownTextStyles={{color: '#fff'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1, marginBottom: 20}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
+                    <SelectList setSelected={(importancia: number) => setImportancia(importancia)} data={data} save="key" dropdownStyles={{width: '100%', backgroundColor: '#fff', marginBottom: 10, height: 200}} maxHeight={200} dropdownTextStyles={{color: '#000'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1, marginBottom: 20}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
                     <Text style={styles.text}>Probabilidade de falha</Text>
-                    <SelectList setSelected={(falha: number) => setFalha(falha)} data={data2} save="key" dropdownStyles={{width: '100%', backgroundColor: '#1f3324', marginBottom: 10, height: 200}} dropdownTextStyles={{color: '#fff'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
+                    <SelectList setSelected={(falha: number) => setFalha(falha)} data={data2} save="key" dropdownStyles={{width: '100%', backgroundColor: '#fff', marginBottom: 10, height: 200}} dropdownTextStyles={{color: '#000'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
                 </View>
 
                 <View style={styles.buttons}>

@@ -71,23 +71,20 @@ export default function Selecao( props: selecaoprops){
 
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
-        <SafeAreaView style={styles.formPoint}>
+        <SafeAreaView style={styles.projeto}>
             <HeaderProject/>
             <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
+                <View style={{marginTop: 200}}>
             <Text style={styles.texto}>Nome do projeto:</Text>
             <View>
                 <TextInput style={styles.nome} onChangeText={(nome) => setNome(nome)} placeholder="Nome do projeto" placeholderTextColor={'#fff'} />
             </View>
-            <Pressable onPressIn={() => criacaoProj(nome, projectID)} onPress={() => props.navigation.navigate("Form1", {id: id, projectID: projectID})}>
-                <View style={styles.botao}>
-                    <Text style={styles.textoB}>Cadastrar evidência</Text>
-                </View>
-            </Pressable>
             <Pressable onPressIn={() => criacaoProj(nome, projectID)} onPress={() => props.navigation.navigate("Main")}>
                 <View style={styles.botao}>
                     <Text style={styles.textoB}>Criar Projeto</Text>
                 </View>
-            </Pressable>     
+            </Pressable>  
+            </View>   
 
             </ScrollView>
         </SafeAreaView>

@@ -6,6 +6,11 @@ const styles = StyleSheet.create({
         height: '100%',
         
     },
+    projeto:{
+        padding: 20,
+        height: '100%',
+        justifyContent: 'center'
+    },
     smallField: {
         borderColor: '#646464',
         borderWidth: 1,
@@ -18,7 +23,6 @@ const styles = StyleSheet.create({
         marginRight: 4,
         marginBottom: 10,
         color: '#ddd',
-        
     },
     bigField: {
         borderColor: '#646464',
@@ -95,9 +99,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         height: 30,
         width: '80%',
-        backgroundColor: '#0c7434',
+        backgroundColor: '#3d6647',
         justifyContent: 'center',
-        marginTop: 20
+        marginTop: 10,
+        paddingLeft: 7,
+        marginBottom: 10
     },
     textoB: {
         color: '#fff',
@@ -137,9 +143,9 @@ const styles = StyleSheet.create({
     texto1: {
         color: '#fff',
         fontSize: 16,
-        marginBottom: 10,
         marginLeft: 2,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginTop: 4,
     },
 })
 

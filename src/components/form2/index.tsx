@@ -9,7 +9,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import React from "react";
 import { RouteProp } from "@react-navigation/native";
 import { params } from "../navigation";
-import bg from './../../../assets/images/background.png'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 export function criacao(fonte: string, autores: any, data: string, tipo: string, norma: string, relacoes: string, revisao: string, consistencia: string, id: any, ident: string) {
@@ -61,10 +61,8 @@ export default function Form2( props: form2props ){
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}} style={{flex:1}}>
         <SafeAreaView style={styles.formPoint}>
             <Header1/>
-            <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
+            <KeyboardAwareScrollView keyboardDismissMode="on-drag" style={styles.formPoint} extraScrollHeight={100}>
             
-                <Text style={styles.text}>Fonte</Text>
-                <TextInput style={styles.font} onChangeText={(fonte) => setFonte(fonte)} placeholder="Link da fonte" placeholderTextColor={'#fff'}/>
                 <Text style={styles.text}>Identificação</Text>
                 <TextInput style={styles.type} onChangeText={(ident) => setIdent(ident)} multiline={true} placeholder="Insira a identificação" placeholderTextColor={'#fff'}/>
                 <Text style={styles.text}>Autores</Text>
@@ -82,11 +80,13 @@ export default function Form2( props: form2props ){
                 <Text style={styles.text}>Data</Text>
                 <TextInput style={styles.date} onChangeText={(data) => setData(data)} placeholder="Insira a data" placeholderTextColor={'#fff'}/>
                 <Text style={styles.text}>Tipo</Text>
-                <TextInput style={styles.type} onChangeText={(tipo) => setTipo(tipo)} multiline={true} placeholder="Para que serve a evidência?" placeholderTextColor={'#fff'}/>
+                <TextInput style={styles.type} onChangeText={(tipo) => setTipo(tipo)} multiline={true} placeholder="Qual tipo da evidência?" placeholderTextColor={'#fff'}/>
                 <Text style={styles.text}>Norma Regulatória</Text>
                 <TextInput style={styles.type} onChangeText={(norma) => setNorma(norma)} multiline={true} placeholder="Norma Regulatória" placeholderTextColor={'#fff'}/>
-                <Text style={styles.text}>Relações na literatura atual</Text>
-                <TextInput style={styles.relations} onChangeText={(relacoes) => setRelacoes(relacoes)} multiline={true} placeholder="Insira as relações" placeholderTextColor={'#fff'}/>
+                <Text style={styles.text}>Link da Fonte</Text>
+                <TextInput style={styles.font} onChangeText={(fonte) => setFonte(fonte)} placeholder="Link da fonte" placeholderTextColor={'#fff'}/>
+                <Text style={styles.text}>Contextualizar</Text>
+                <TextInput style={styles.relations} onChangeText={(relacoes) => setRelacoes(relacoes)} multiline={true} placeholder="Insira a contextualização" placeholderTextColor={'#fff'}/>
                 <View style={styles.checkBoxArea}>
                     <Text style={styles.text}>Revisao por pares</Text>
                     <BouncyCheckbox fillColor="#1f3324" iconStyle={{borderColor: "#1f3324"}} onPress={(isChecked: boolean) => {setRevisao("SIM")}} />
@@ -101,7 +101,7 @@ export default function Form2( props: form2props ){
                         <Text style={styles.buttonTextNext}>Avançar</Text>
                     </Pressable>
                 </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         </SafeAreaView>
         </ImageBackground>
     );

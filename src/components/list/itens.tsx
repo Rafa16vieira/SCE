@@ -68,7 +68,7 @@ export default function Itens(props: ItensProps){
                     {projects.map((projeto: any) =>
                         <View key={projeto.nome} style={{flexDirection: 'column'}}>
                             <Pressable>
-                                <View style={styles.smallField}>
+                                <View style={styles.botao}>
                                     <Text style={styles.texto1} key={projeto.nome}>{projeto.nome}</Text>
                                 </View>
                             </Pressable>
@@ -98,8 +98,16 @@ export default function Itens(props: ItensProps){
                     )}
                 
                 <View style={{marginBottom:100, marginTop: 100}}>
-                    <Button title="Cadastrar Evidência nova" onPress={() => props.navigation.navigate("Form1", {id: makeid(), projectID: id})} color={'#1f3324'}/>
-                    <Button title="Menu" color={'#1f3324'} onPress={() => props.navigation.navigate("Main")}/>
+                    <Pressable onPress={() => props.navigation.navigate("Form1", {id: makeid(), projectID: id})}>
+                        <View style={styles.botao}>
+                            <Text style={styles.textoB}>Cadastrar nova Evidência</Text>
+                        </View>
+                    </Pressable>
+                    <Pressable onPress={() => props.navigation.navigate("Main")}>
+                        <View style={styles.botao}>
+                            <Text style={styles.textoB}>Menu</Text>
+                        </View>
+                    </Pressable>
                 </View>
             </ScrollView>
         </SafeAreaView>

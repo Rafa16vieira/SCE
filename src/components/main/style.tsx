@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255,255,255,0.08)'
     },
     textMain: {
-        color: "#152319",
+        color: "#fff",
         fontSize: 20,
         fontWeight: "bold",
         alignSelf: 'center',

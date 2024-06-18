@@ -92,6 +92,14 @@ const styles = StyleSheet.create({
         color: '#c7ffd8',
         
     },
+    dropdown: {
+        backgroundColor: '#1f3324',
+        borderColor: '#646464',
+        borderWidth: 1,
+        borderRadius: 4,
+        padding: 8,
+        color: '#fff'
+    },
 
 });
 

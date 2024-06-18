@@ -45,22 +45,6 @@ let iddel:any
     
 
     useEffect(() => {
-        const fetchUserName = async () => {
-            const user = auth.currentUser;
-            if (user) {
-                try {
-                const userDoc = await getDoc(doc(firestore, 'users', user.uid));
-                if (userDoc.exists()) {
-                    setName(userDoc.data()?.name || 'No Name Found');
-                }
-                } catch (error) {
-                console.error("Error fetching user data: ", error);
-                }
-            }
-            setLoading(false);
-            };
-    
-            fetchUserName();
         if (nome) {
             const q = query(collection(firestore, 'forms'), where('nome', '==', nome));
             const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -194,10 +178,10 @@ let iddel:any
                                 </Pressable>
                                 <Text style={styles.texto}>Avaliador</Text>
                                 <Pressable style={styles.smallField}>
-                                    <Text style={styles.dados} key={name}>{name}</Text>
+                                    <Text style={styles.dados} key={name}>{projeto.avaliador}</Text>
                                 </Pressable>
                                 <View style={{marginBottom:100}}>
-                                    <Button title="Exportar para PDF" color={'#1f3324'} onPress={() => printToFile(projeto.nome, projeto.palavras, projeto.descricao, projeto.proposito, projeto.identificacao, projeto.autores, projeto.data, projeto.tipo, projeto.norma, projeto.fonte, projeto.relacoes, projeto.revisao, projeto.consistencia, projeto.amostra, projeto.usos, projeto.implementacao, projeto.vieses, projeto.conflitos, projeto.sintese, projeto.fortalece, projeto.naoAltera, projeto.enfraquece, projeto.relevancia, projeto.cobertura, projeto.forca, projeto.importancia, projeto.falha, projeto.selo, projeto.evidencia, name)}/>
+                                    <Button title="Exportar para PDF" color={'#1f3324'} onPress={() => printToFile(projeto.nome, projeto.palavras, projeto.descricao, projeto.proposito, projeto.identificacao, projeto.autores, projeto.data, projeto.tipo, projeto.norma, projeto.fonte, projeto.relacoes, projeto.revisao, projeto.consistencia, projeto.amostra, projeto.usos, projeto.implementacao, projeto.vieses, projeto.conflitos, projeto.sintese, projeto.fortalece, projeto.naoAltera, projeto.enfraquece, projeto.relevancia, projeto.cobertura, projeto.forca, projeto.importancia, projeto.falha, projeto.selo, projeto.evidencia, projeto.avaliador)}/>
                                     <Button title="Menu" color={'#1f3324'} onPress={() => props.navigation.navigate("Main")}/>
                                 </View>
                             </View>

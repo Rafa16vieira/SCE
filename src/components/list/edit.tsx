@@ -251,10 +251,10 @@ export default function Edit(props: editProps) {
                         value={evids.evidencia || ''}
                         onChangeText={(text) => handleInputChange('evidencia', text)}
                     />
-                    <Text style={styles.texto}>Avaliador</Text>
+                    <Text style={styles.texto}>Avaliador:</Text>
                     <TextInput
                         style={styles.smallField}
-                        value={name}
+                        value={evids.avaliador}
                         editable={false}
                     />
                     <View style={{ marginBottom: 100 }}>
