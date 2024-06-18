@@ -9,11 +9,14 @@ const RegisterScreen = ({ navigation }: any) => {
     const [nome, setNome] = useState('');
     const [login, setLogin] = useState('');
     const [senha, setSenha] = useState('');
+    const [ isLoading, setIsLoading ] = useState(false);
+    
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
+        setIsLoading(true);
         const email = `${login}@example.com`;
     
-        createUserWithEmailAndPassword(auth, email, senha)
+        await createUserWithEmailAndPassword(auth, email, senha)
             .then(userCredential => {
                 const user = userCredential.user;
                 return setDoc(doc(firestore, 'users', user.uid), {
@@ -49,6 +52,7 @@ const RegisterScreen = ({ navigation }: any) => {
                         Alert.alert('Login Falhou', 'Ocorreu um erro inesperado. Tente novamente mais tarde.');
                 }
             });
+            setIsLoading(false);
         }
 
     return (
@@ -78,11 +82,19 @@ const RegisterScreen = ({ navigation }: any) => {
                 secureTextEntry
                 placeholderTextColor={'#1f3324'}
             />
-            <Pressable onPress={handleRegister}>
-                <View style={styles.botao}>
+            <Pressable onPress={handleRegister} disabled={isLoading}>
+                <View style={[styles.botao, { opacity: isLoading ? 0.3 : 1}]}>
                     <Text style={styles.texto}>Cadastrar</Text>
                 </View>
             </Pressable>
+
+            <Pressable onPress={() => navigation.goBack() }>
+                <View style={[styles.botao]}>
+                    <Text style={styles.texto}>Voltar</Text>
+                </View>
+            </Pressable>
+
+
             </View>
         </ImageBackground>
     );

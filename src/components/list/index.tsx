@@ -2,20 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Button, Text, StyleSheet, ImageBackground, TouchableOpacity, SafeAreaView, FlatList, Image, ScrollView, Pressable, Modal, Alert, TextInput } from 'react-native';
 import { FieldPath, QuerySnapshot, collection, doc, getDoc, getDocs, onSnapshot, setDoc } from 'firebase/firestore';
 import { firestore } from '../../config/firebase-config';
-import { RouteProp } from '@react-navigation/native';
-import { useRoute } from "@react-navigation/native";
-import bg from './../../../assets/images/background.png'
 import { HeaderList, HeaderProject } from '../header';
-
-
-
-
 
 
 export interface AliviarDorscreenProps {
     navigation: any;
 }
-
 
 const projects : any = []
 const unsubscribe = onSnapshot(collection(firestore, 'projetos'), (querySnapshot) => {
@@ -26,16 +18,8 @@ const unsubscribe = onSnapshot(collection(firestore, 'projetos'), (querySnapshot
 })
 
 
-
-
 export default function Projetos(props: AliviarDorscreenProps ) {
-    const [ modal, setModal ] = useState(false)
-    const [ nome, setNome ] = useState("");
     
-    
-    
-
-
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <ScrollView style={styles.formPoint}> 

@@ -9,16 +9,7 @@ import { params } from "../navigation";
 import { Utils } from "@nativescript/core";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-export function criacao(nome: string, key: any, descricao: string, proposito: string, id: string, projetoID: string) {
-    const projectDoc = doc(firestore, "forms", id)
-    setDoc(projectDoc, {
-        nome: nome,
-        palavras: key,
-        descricao: descricao,
-        proposito: proposito,
-        projetoID: projetoID
-    });
-};
+
 
 export interface form1props {
     navigation: any;
@@ -36,15 +27,18 @@ export default function Form1(props: form1props){
 
     //@ts-ignore
     const { id, projectID } = props.route.params
-    console.log({id})
+    //console.log({id})
 
-    
-
-
-    
-    
-
-
+    const criacao = async (nome: string, key: any, descricao: string, proposito: string, id: string, projetoID: string) => {
+        const projectDoc = doc(firestore, "forms", id)
+        await setDoc(projectDoc, {
+            nome: nome,
+            palavras: key,
+            descricao: descricao,
+            proposito: proposito,
+            projetoID: projetoID
+        });
+    };
 
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}} style={{flex: 1}}>

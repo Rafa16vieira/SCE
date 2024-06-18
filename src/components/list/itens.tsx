@@ -1,12 +1,10 @@
 import { SafeAreaView, ScrollView, View, Text, Button, Pressable, ImageBackground } from "react-native";
 import styles from "./style";
-import { useRoute } from "@react-navigation/native";
 import { RouteProp } from '@react-navigation/native';
 import { params } from "../navigation";
-import { collection, deleteDoc, doc, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { firestore } from "@/src/config/firebase-config";
-import bg from './../../../assets/images/background.png'
 import { Icon } from "@rneui/themed";
 import { HeaderEvids } from "../header";
 
@@ -16,43 +14,52 @@ export interface ItensProps {
     route: RouteProp<params, "Itens">;
 }
 
-export async function exclusao(id: any){
-    await deleteDoc(doc(firestore, "forms", id));
-}
-
-function makeid() {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < 200) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        counter += 1;
-    }
-    return result;
-}
-
-
 export default function Itens(props: ItensProps){
     const [projects, setProjects] = useState([]);
+    const [ project, setProject ] = useState<any>(null);
     //@ts-ignore
     const {id} = props.route.params
     console.log({id})
 
+    const exclusao = async (id: any) => {
+        await deleteDoc(doc(firestore, "forms", id));
+    }
+    
+    const makeid = () => {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < 200) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            counter += 1;
+        }
+        return result;
+    }
+
+    const buscarProjeto = async (projectID: any) => {
+        //Busca o projeto
+        const snapshot = await getDoc(doc(firestore, 'projetos', id));
+
+        setProject(snapshot.data())
+
+    }
 
     
     useEffect(() => {
         if (id) {
-        const q = query(collection(firestore, 'forms'), where('projetoID', '==', id));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        const newProjects : any = [];
-            querySnapshot.forEach((doc) => {
-                newProjects.push(doc.data());
-            });
-            setProjects(newProjects)
-    
-            });
-        }
+            buscarProjeto(id);
+            //Busca as evidencias
+            const q = query(collection(firestore, 'forms'), where('projetoID', '==', id));
+            const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const newProjects : any = [];
+                querySnapshot.forEach((doc) => {
+                    newProjects.push(doc.data());
+                });
+                setProjects(newProjects)
+        
+                });
+            }
     }, [id]);
 
     
@@ -64,6 +71,8 @@ export default function Itens(props: ItensProps){
         <SafeAreaView style={styles.formPoint}>
             <ScrollView style={styles.formPoint}>
                 <HeaderEvids/>
+
+                    {project && <Text style={{textAlign: 'center', fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Projeto:</Text> {project.nome}</Text>}
                 
                     {projects.map((projeto: any) =>
                         <View key={projeto.nome} style={{flexDirection: 'column'}}>
@@ -101,6 +110,11 @@ export default function Itens(props: ItensProps){
                     <Pressable onPress={() => props.navigation.navigate("Form1", {id: makeid(), projectID: id})}>
                         <View style={styles.botao}>
                             <Text style={styles.textoB}>Cadastrar nova Evidência</Text>
+                        </View>
+                    </Pressable>
+                    <Pressable onPress={() => props.navigation.goBack()}>
+                        <View style={styles.botao}>
+                            <Text style={styles.textoB}>Voltar</Text>
                         </View>
                     </Pressable>
                     <Pressable onPress={() => props.navigation.navigate("Main")}>
