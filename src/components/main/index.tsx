@@ -21,7 +21,7 @@ export default function Main(props: MainProps){
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.mainScreen}>
         
-            <ScrollView style={styles.mainScreen}>
+            <ScrollView style={{flex: 1, padding: 20}}>
             
 
             <Header/>

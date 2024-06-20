@@ -12,20 +12,7 @@ import { params } from "../navigation";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
-export function criacao(fonte: string, autores: any, data: string, tipo: string, norma: string, relacoes: string, revisao: string, consistencia: string, id: any, ident: string) {
-    updateDoc(doc(firestore, "forms", id), {
-        fonte: fonte,
-        autores: autores,
-        data: data,
-        tipo: tipo,
-        norma: norma,
-        relacoes: relacoes,
-        revisao: revisao,
-        consistencia: consistencia,
-        identificacao: ident
 
-    });
-};
 
 export interface form2props {
     navigation: any;
@@ -48,20 +35,35 @@ export default function Form2( props: form2props ){
     const [ ident, setIdent ] = useState("");
 
     //@ts-ignore
-    const { id } = props.route.params
+    const { id, projectID } = props.route.params
 
     const newid = String(id)
 
     
+    const criacao = (fonte: string, autores: any, data: string, tipo: string, norma: string, relacoes: string, revisao: string, consistencia: string, id: any, ident: string) => {
+        updateDoc(doc(firestore, "forms", id), {
+            fonte: fonte,
+            autores: autores,
+            data: data,
+            tipo: tipo,
+            norma: norma,
+            relacoes: relacoes,
+            revisao: revisao,
+            consistencia: consistencia,
+            identificacao: ident
     
+        });
+    };
     
 
 
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}} style={{flex:1}}>
         <SafeAreaView style={styles.formPoint}>
+            <View style={{backgroundColor:'rgba(255,255,255,0.08)'}}>
             <Header1/>
-            <KeyboardAwareScrollView keyboardDismissMode="on-drag" style={styles.formPoint} extraScrollHeight={100}>
+            </View>
+            <KeyboardAwareScrollView keyboardDismissMode="on-drag" style={{backgroundColor: 'rgba(255,255,255,0.08)', padding: 20}} extraScrollHeight={100}>
             
                 <Text style={styles.text}>Identificação</Text>
                 <TextInput style={styles.type} onChangeText={(ident) => setIdent(ident)} multiline={true} placeholder="Insira a identificação" placeholderTextColor={'#fff'}/>
@@ -97,7 +99,7 @@ export default function Form2( props: form2props ){
                     <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form1", {id: newid})}>
                         <Text style={styles.buttonTextBack}>Voltar</Text>
                     </Pressable>
-                    <Pressable style={styles.next} onPressIn={() => criacao(fonte, autores, data, tipo, norma, relacoes, revisao, consistencia, newid, ident)} onPress={() => props.navigation.navigate("Form3", {id: newid})}>
+                    <Pressable style={styles.next} onPressIn={() => criacao(fonte, autores, data, tipo, norma, relacoes, revisao, consistencia, newid, ident)} onPress={() => props.navigation.navigate("Form3", {id: newid, projectID: projectID})}>
                         <Text style={styles.buttonTextNext}>Avançar</Text>
                     </Pressable>
                 </View>

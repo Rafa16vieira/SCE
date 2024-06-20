@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, Image, Pressable, SafeAreaView, ScrollView, TextInput, ImageBackground, } from "react-native";
+import { View, Text, Pressable, SafeAreaView, TextInput, ImageBackground, } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import styles from "./style";
-import { Icon } from '@rneui/themed';
 import { Header1 } from "../header";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { firestore } from "../../config/firebase-config";
 import { RouteProp } from "@react-navigation/native";
 import { params } from "../navigation";
-import bg from './../../../assets/images/background.png';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Dropdown } from 'react-native-element-dropdown';
@@ -50,9 +48,9 @@ export default function Form4( props: form5props){
     const [fortalece, setFortalece] = useState("NÃO");
     const [naltera, setNAltera] = useState("NÃO");
     const [enfraquece, setEnfraquece] = useState("NÃO");
-    const [relevancia, setRelevancia] = useState<string | null>(null);
-    const [cobertura, setCobertura] = useState<string | null>(null);
-    const [forca, setForca] = useState<string | null>(null);
+    const [relevancia, setRelevancia] = useState(0);
+    const [cobertura, setCobertura] = useState(0);
+    const [forca, setForca] = useState(0);
 
     const criacao = async (sintese: string, fort: string, nalt: string, enf: string, relevancia: number, cobertura: number, forca: number, id: any) => {
         updateDoc(doc(firestore, "forms", id), {
@@ -69,97 +67,58 @@ export default function Form4( props: form5props){
 
 
     //@ts-ignore
-    const { id } = props.route.params
+    const { id, projectID } = props.route.params
 
     const newid = String(id)
 
-    const sum = (parseInt(relevancia ?? "0") + parseInt(cobertura ?? "0") + parseInt(forca ?? "0"));
-
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
-        <KeyboardAwareScrollView style={styles.formPoint}>
         <SafeAreaView style={styles.formPoint}>
-        <View style={styles.formPoint}>
+            <View style={{backgroundColor:'rgba(255,255,255,0.08)', marginTop: 1}}>
             <Header1/>
+            </View>
+            <KeyboardAwareScrollView keyboardDismissMode="on-drag" style={{flex: 1,  backgroundColor: 'rgba(255,255,255,0.08)'}} extraScrollHeight={100}>
+        <View style={styles.formPoint}>
             <Text style={styles.text}>Síntese da análise</Text>
             <TextInput style={styles.verify} onChangeText={(textsint) => setTextsint(textsint)} multiline={true} placeholder="Digite a sintese" placeholderTextColor={'#fff'}/>
             <View style={styles.sample}>
                 <Text style={styles.text}>A evidência...</Text>
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.text}>Fortalece a compreensão</Text>
-                    <BouncyCheckbox fillColor="#1f3324" iconStyle={{ marginLeft: 10, borderColor: "#1f3324"}} onPress={(isChecked: boolean) => { setFortalece(isChecked ? "SIM" : "NÃO") }} />
+                    <BouncyCheckbox fillColor="#1f3324" iconStyle={{ marginLeft: 40, borderColor: "#1f3324"}} onPress={(isChecked: boolean) => { setFortalece(isChecked ? "SIM" : "NÃO") }} />
                 </View>
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.text}>Não altera a compreensão</Text>
-                    <BouncyCheckbox fillColor="#1f3324" iconStyle={{ marginLeft: 10, borderColor: "#1f3324"}} onPress={(isChecked: boolean) => { setNAltera(isChecked ? "SIM" : "NÃO") }} />
+                    <BouncyCheckbox fillColor="#1f3324" iconStyle={{ marginLeft: 33, borderColor: "#1f3324"}} onPress={(isChecked: boolean) => { setNAltera(isChecked ? "SIM" : "NÃO") }} />
                 </View>
                 <View style={{flexDirection: 'row'}}>
                     <Text style={styles.text}>Enfraquece a compreensão</Text>
-                    <BouncyCheckbox fillColor="#1f3324" iconStyle={{ marginLeft: 10, borderColor: "#1f3324"}} onPress={(isChecked: boolean) => { setEnfraquece(isChecked ? "SIM" : "NÃO") }} />
+                    <BouncyCheckbox fillColor="#1f3324" iconStyle={{ marginLeft: 22, borderColor: "#1f3324"}} onPress={(isChecked: boolean) => { setEnfraquece(isChecked ? "SIM" : "NÃO") }} />
                 </View>
             </View>
             <View style={styles.sample}>
                 <Text style={styles.text}>Verificar relevância</Text>
-                <Dropdown
-                                style={[styles.dropdown, { backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1 }]}
-                                placeholderStyle={{ color: '#fff' }}
-                                selectedTextStyle={{ color: '#fff' }}
-                                inputSearchStyle={{ color: '#fff' }}
-                                data={data2}
-                                labelField="key"
-                                valueField="value"
-                                placeholder="Selecione..."
-                                search={false}
-                                maxHeight={200}
-                                value={relevancia}
-                                onChange={item => setRelevancia(item.key.toString())}
-                            />
+                <SelectList setSelected={(relevancia: number) => setRelevancia(relevancia)} data={data2} save="key" dropdownStyles={{width: '100%', backgroundColor: '#1f3324', marginBottom: 10, height: 200}} maxHeight={200} dropdownTextStyles={{color: '#fff'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1, marginBottom: 20}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
             </View>
             <View style={styles.sample}>
                 <Text style={styles.text}>Verificar cobertura</Text>
-                <Dropdown
-                                style={[styles.dropdown, { backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1 }]}
-                                placeholderStyle={{ color: '#fff' }}
-                                selectedTextStyle={{ color: '#fff' }}
-                                inputSearchStyle={{ color: '#fff' }}
-                                data={data3}
-                                labelField="value"
-                                valueField="key"
-                                placeholder="Selecione..."
-                                search={false}
-                                maxHeight={200}
-                                value={cobertura}
-                                onChange={item => setCobertura(item.key.toString())}
-                            />
+                <SelectList setSelected={(cobertura: number) => setCobertura(cobertura)} data={data3} save="key" dropdownStyles={{width: '100%', backgroundColor: '#1f3324', marginBottom: 10, height: 200}} maxHeight={200} dropdownTextStyles={{color: '#fff'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1, marginBottom: 20}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
             </View>
             <View style={styles.sample}>
                 <Text style={styles.text}>Verificar força</Text>
-                <Dropdown
-                                style={[styles.dropdown, { backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1 }]}
-                                placeholderStyle={{ color: '#fff' }}
-                                selectedTextStyle={{ color: '#fff' }}
-                                inputSearchStyle={{ color: '#fff' }}
-                                data={data4}
-                                labelField="value"
-                                valueField="key"
-                                placeholder="Selecione..."
-                                search={false}
-                                maxHeight={200}
-                                value={forca}
-                                onChange={item => setForca(item.key.toString())}
-                            />
+                <SelectList setSelected={(forca: number) => setForca(forca)} data={data4} save="key" dropdownStyles={{width: '100%', backgroundColor: '#1f3324', marginBottom: 10, height: 200}} maxHeight={200} dropdownTextStyles={{color: '#fff'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1, marginBottom: 20}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
             </View>
             <View style={styles.buttons}>
                 <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form3", {id: newid})}>
                     <Text style={styles.buttonTextBack}>Voltar</Text>
                 </Pressable>
-                <Pressable style={styles.next} onPressIn={() => criacao(textsint, fortalece, naltera, enfraquece, parseInt(relevancia!), parseInt(cobertura!), parseInt(forca!), newid)} onPress={() => props.navigation.navigate("Form5", {id: newid, relevancia: relevancia, cobertura: cobertura, forca: forca})}>
+                <Pressable style={styles.next} onPressIn={() => criacao(textsint, fortalece, naltera, enfraquece, relevancia, cobertura, forca, newid)} onPress={() => props.navigation.navigate("Form5", {id: newid, relevancia: relevancia, cobertura: cobertura, forca: forca, projectID: projectID})}>
                     <Text style={styles.buttonTextNext}>Avançar</Text>
                 </Pressable>
             </View>
         </View>
-        </SafeAreaView>
         </KeyboardAwareScrollView>
+        </SafeAreaView>
         </ImageBackground>
     );
 }

@@ -2,9 +2,9 @@ import { doc, getDocs, setDoc, updateDoc, onSnapshot } from "firebase/firestore"
 import { firestore } from "../config/firebase-config";
 import { HeaderProject } from "../components/header";
 import React, { useState, Component, useEffect } from "react";
-import { View, Text, Image, Pressable, SafeAreaView, ScrollView, TextInput, ImageBackground, Modal, Button, Alert, ToastAndroid, } from "react-native";
-
+import { View, Text, Image, Pressable, SafeAreaView, ScrollView, TextInput, ImageBackground, Modal, Button, Alert, } from "react-native";
 import styles from "../components/list/style";
+import Toast from 'react-native-root-toast';
 
 export interface selecaoprops {
     navigation: any;
@@ -21,7 +21,7 @@ export default function Selecao( props: selecaoprops){
             id: projectID
         });
 
-        ToastAndroid.show('Projeto criado', ToastAndroid.LONG);
+        Toast.show('Projeto criado', {duration: Toast.durations.SHORT, position: Toast.positions.CENTER, animation: true, hideOnPress: true});
         props.navigation.navigate("Main")
     };
     
@@ -41,8 +41,10 @@ export default function Selecao( props: selecaoprops){
 
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
-        <SafeAreaView style={styles.projeto}>
+        <SafeAreaView style={{ justifyContent: 'center', backgroundColor: 'rgba(255,255,255,0.08)'}}>
+            <View>
             <HeaderProject/>
+            </View>
             <ScrollView keyboardDismissMode="on-drag" style={styles.formPoint}>
                 <View style={{marginTop: 200}}>
             <Text style={styles.texto}>Nome do projeto:</Text>

@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 30,
         marginBottom: 40,
+        justifyContent: 'center'
         
     },
     back: {

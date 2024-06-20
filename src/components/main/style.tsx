@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
         padding: 20, 
         height: '100%',
         alignContent: 'center',
-        backgroundColor: 'rgba(255,255,255,0.08)'
+        backgroundColor: 'rgba(255,255,255,0.08)',
     },
     textMain: {
         color: "#fff",

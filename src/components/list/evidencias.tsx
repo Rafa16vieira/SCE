@@ -9,40 +9,23 @@ import styles from "./style";
 import bg from './../../../assets/images/background.png'
 import { printToFile } from "@/src/getter";
 
-
-
-
-
 export interface evidProps {
     navigation: any;
     route: RouteProp<params, "Evidencias">;
 }
 
-
-export function boolString(bool: boolean){
-    let stringer : string = String(bool)
-
-    return stringer;
-}
-
-
-
-
 export default function Evidencias (props: evidProps){
     const [evids, setEvids] = useState([]);
     const [id, setId] = useState(null)
     const [name, setName] = useState('');
-    const [loading, setLoading] = useState(false);
 
     //@ts-ignore
-const { nome } = props.route.params
-let iddel:any
+    const { nome } = props.route.params
 
-    if (loading) {
-        return <ActivityIndicator size="large" color="#1f3324" />;
+    const boolString = (bool: boolean) => {
+        let stringer : string = String(bool)
+        return stringer;
     }
-
-    
 
     useEffect(() => {
         if (nome) {
@@ -61,15 +44,14 @@ let iddel:any
         }
         },[nome])
 
-    
-    
-
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
 
         <SafeAreaView style={styles.formPoint}>
+            <View style={{backgroundColor: 'rgba(255,255,255,0.08)', marginTop: 5}}>
             <HeaderData/>
-            <ScrollView style={styles.formPoint}>
+            </View>
+            <ScrollView style={{flex: 1,  backgroundColor: 'rgba(255,255,255,0.08)', padding: 20}}>
                 {evids.map((projeto: any) =>
                             <View key={projeto.nome} style={{flexDirection: 'column', flex: 1}}>
                                 <Text style={styles.texto}>Nome:</Text>
@@ -88,13 +70,9 @@ let iddel:any
                                 <Pressable style={styles.bigField}>
                                     <Text style={styles.dados} key={projeto.proposito}>{projeto.proposito}</Text>
                                 </Pressable>
-                                <Text style={styles.texto}>Fonte:</Text>
-                                <Pressable style={styles.smallField}>
-                                    <Text style={styles.dados} key={projeto.fonte}>{projeto.fonte}</Text>
-                                </Pressable>
-                                <Text style={styles.texto}>Contextualizar:</Text>
+                                <Text style={styles.texto}>Identificação:</Text>
                                 <Pressable style={styles.bigField}>
-                                    <Text style={styles.dados} key={projeto.relacoes}>{projeto.relacoes}</Text>
+                                    <Text style={styles.dados} key={projeto.identificacao}>{projeto.identificacao}</Text>
                                 </Pressable>
                                 <Text style={styles.texto}>Autores:</Text>
                                 <Pressable style={styles.smallField}>
@@ -112,15 +90,19 @@ let iddel:any
                                 <Pressable style={styles.bigField}>
                                     <Text style={styles.dados} key={projeto.norma}>{projeto.norma}</Text>
                                 </Pressable>
-                                <Text style={styles.texto}>Relações na literatura atual:</Text>
+                                <Text style={styles.texto}>Link da fonte:</Text>
                                 <Pressable style={styles.smallField}>
+                                    <Text style={styles.dados} key={projeto.fonte}>{projeto.fonte}</Text>
+                                </Pressable>
+                                <Text style={styles.texto}>Contextualizar:</Text>
+                                <Pressable style={styles.bigField}>
                                     <Text style={styles.dados} key={projeto.relacoes}>{projeto.relacoes}</Text>
                                 </Pressable>
                                 <Text style={styles.texto}>Revisão por pares:</Text>
                                 <Pressable style={styles.smallField}>
                                     <Text style={styles.dados} key={projeto}>{boolString(projeto.revisao)}</Text>
                                 </Pressable>
-                                <Text style={styles.texto}>Consistência com a literatura anterior:</Text>
+                                <Text style={styles.texto}>Consistência:</Text>
                                 <Pressable style={styles.smallField}>
                                     <Text style={styles.dados} key={projeto.consistencia}>{boolString(projeto.consistencia)}</Text>
                                 </Pressable>
@@ -128,13 +110,13 @@ let iddel:any
                                 <Pressable style={styles.bigField}>
                                     <Text style={styles.dados} key={projeto.amostra}>{projeto.amostra}</Text>
                                 </Pressable>
-                                <Text style={styles.texto}>Implementação:</Text>
-                                <Pressable style={styles.bigField}>
-                                    <Text style={styles.dados} key={projeto.implementacao}>{projeto.implementacao}</Text>
-                                </Pressable>
                                 <Text style={styles.texto}>Usos conhecidos:</Text>
                                 <Pressable style={styles.bigField}>
                                     <Text style={styles.dados} key={projeto.usos}>{projeto.usos}</Text>
+                                </Pressable>
+                                <Text style={styles.texto}>Implementação:</Text>
+                                <Pressable style={styles.bigField}>
+                                    <Text style={styles.dados} key={projeto.implementacao}>{projeto.implementacao}</Text>
                                 </Pressable>
                                 <Text style={styles.texto}>Possíveis viéses:</Text>
                                 <Pressable style={styles.bigField}>
@@ -148,6 +130,18 @@ let iddel:any
                                 <Pressable style={styles.smallField}>
                                     <Text style={styles.dados} key={1}>{projeto.sintese}</Text>
                                 </Pressable>
+                                <Text style={styles.texto}>A evidência fortalece a compreensão:</Text>
+                                <Pressable style={styles.smallField}>
+                                    <Text style={styles.dados} key={7}>{projeto.fortalece}</Text>
+                                </Pressable>
+                                <Text style={styles.texto}>A evidência não altera a compreensão:</Text>
+                                <Pressable style={styles.smallField}>
+                                    <Text style={styles.dados} key={8}>{projeto.naoAltera}</Text>
+                                </Pressable>
+                                <Text style={styles.texto}>A evidência enfraquece a compreensão:</Text>
+                                <Pressable style={styles.smallField}>
+                                    <Text style={styles.dados} key={9}>{projeto.enfraquece}</Text>
+                                </Pressable>
                                 <Text style={styles.texto}>Relevância:</Text>
                                 <Pressable style={styles.smallField}>
                                     <Text style={styles.dados} key={2}>{projeto.relevancia}</Text>
@@ -160,11 +154,11 @@ let iddel:any
                                 <Pressable style={styles.smallField}>
                                     <Text style={styles.dados} key={4}>{projeto.forca}</Text>
                                 </Pressable>
-                                <Text style={styles.texto}>Grau de importância:</Text>
+                                <Text style={styles.texto}>Grau do Perigo (GP):</Text>
                                 <Pressable style={styles.smallField}>
                                     <Text style={styles.dados} key={5}>{projeto.importancia}</Text>
                                 </Pressable>
-                                <Text style={styles.texto}>Probabilidade de falha:</Text>
+                                <Text style={styles.texto}>Probabilidade de falhas:</Text>
                                 <Pressable style={styles.smallField}>
                                     <Text style={styles.dados} key={6}>{projeto.falha}</Text>
                                 </Pressable>
@@ -172,7 +166,7 @@ let iddel:any
                                 <Pressable style={styles.smallField}>
                                     <Text style={styles.dados} key={projeto.selo}>{projeto.selo}</Text>
                                 </Pressable>
-                                <Text style={styles.texto}>Evidencia:</Text>
+                                <Text style={styles.texto}>Classificação da Evidencia:</Text>
                                 <Pressable style={styles.smallField}>
                                     <Text style={styles.dados} key={projeto.evidencia}>{projeto.evidencia}</Text>
                                 </Pressable>
@@ -181,21 +175,26 @@ let iddel:any
                                     <Text style={styles.dados} key={name}>{projeto.avaliador}</Text>
                                 </Pressable>
                                 <View style={{marginBottom:100}}>
-                                    <Button title="Exportar para PDF" color={'#1f3324'} onPress={() => printToFile(projeto.nome, projeto.palavras, projeto.descricao, projeto.proposito, projeto.identificacao, projeto.autores, projeto.data, projeto.tipo, projeto.norma, projeto.fonte, projeto.relacoes, projeto.revisao, projeto.consistencia, projeto.amostra, projeto.usos, projeto.implementacao, projeto.vieses, projeto.conflitos, projeto.sintese, projeto.fortalece, projeto.naoAltera, projeto.enfraquece, projeto.relevancia, projeto.cobertura, projeto.forca, projeto.importancia, projeto.falha, projeto.selo, projeto.evidencia, projeto.avaliador)}/>
-                                    <Button title="Menu" color={'#1f3324'} onPress={() => props.navigation.navigate("Main")}/>
+                                    <Pressable onPress={() => printToFile(projeto.nome, projeto.palavras, projeto.descricao, projeto.proposito, projeto.identificacao, projeto.autores, projeto.data, projeto.tipo, projeto.norma, projeto.fonte, projeto.relacoes, projeto.revisao, projeto.consistencia, projeto.amostra, projeto.usos, projeto.implementacao, projeto.vieses, projeto.conflitos, projeto.sintese, projeto.fortalece, projeto.naoAltera, projeto.enfraquece, projeto.relevancia, projeto.cobertura, projeto.forca, projeto.importancia, projeto.falha, projeto.selo, projeto.evidencia, projeto.avaliador)}>
+                                        <View style={styles.botao}>
+                                            <Text style={styles.textoB}>Exportar para PDF</Text>
+                                        </View>
+                                    </Pressable>
+                                    <Pressable onPress={() => props.navigation.goBack()}>
+                                        <View style={styles.botao}>
+                                            <Text style={styles.textoB}>Voltar</Text>
+                                        </View>
+                                    </Pressable>
+                                    <Pressable onPress={() => props.navigation.navigate("Main")}>
+                                        <View style={styles.botao}>
+                                            <Text style={styles.textoB}>Menu</Text>
+                                        </View>
+                                    </Pressable>
                                 </View>
                             </View>
-
-
-                        
-                                
-                            
                         )}
                     </ScrollView>
         </SafeAreaView>
         </ImageBackground>
-
     )
 }
-
-

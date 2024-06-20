@@ -1,12 +1,14 @@
-import { SafeAreaView, ScrollView, View, Text, Button, Pressable, ImageBackground } from "react-native";
+import { SafeAreaView, ScrollView, View, Text, Pressable, ImageBackground } from "react-native";
 import styles from "./style";
 import { RouteProp } from '@react-navigation/native';
 import { params } from "../navigation";
-import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { firestore } from "@/src/config/firebase-config";
 import { Icon } from "@rneui/themed";
 import { HeaderEvids } from "../header";
+import Toast from 'react-native-root-toast';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 
 export interface ItensProps {
@@ -17,12 +19,16 @@ export interface ItensProps {
 export default function Itens(props: ItensProps){
     const [projects, setProjects] = useState([]);
     const [ project, setProject ] = useState<any>(null);
+    const [ showAlert, setShowAlert ] = useState(false)
+
     //@ts-ignore
     const {id} = props.route.params
-    console.log({id})
 
     const exclusao = async (id: any) => {
         await deleteDoc(doc(firestore, "forms", id));
+
+        setShowAlert(false)
+        Toast.show('Evidência excluída com sucesso!', {duration: Toast.durations.SHORT, position: Toast.positions.CENTER, animation: true, hideOnPress: true})
     }
     
     const makeid = () => {
@@ -39,7 +45,7 @@ export default function Itens(props: ItensProps){
 
     const buscarProjeto = async (projectID: any) => {
         //Busca o projeto
-        const snapshot = await getDoc(doc(firestore, 'projetos', id));
+        const snapshot = await getDoc(doc(firestore, 'projetos', projectID));
 
         setProject(snapshot.data())
 
@@ -63,16 +69,17 @@ export default function Itens(props: ItensProps){
     }, [id]);
 
     
-
-
-
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.formPoint}>
-            <ScrollView style={styles.formPoint}>
-                <HeaderEvids/>
+            <View style={{backgroundColor: 'rgba(255,255,255,0.08)', marginTop: 5}}>
+        <HeaderEvids/>
+        {project && <Text style={{textAlign: 'center', fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Projeto:</Text> {project.nome}</Text>}
+        </View>
+            <ScrollView style={{flex: 1, backgroundColor: 'rgba(255,255,255,0.08)'}}>
+                
 
-                    {project && <Text style={{textAlign: 'center', fontSize: 20}}><Text style={{fontWeight: 'bold'}}>Projeto:</Text> {project.nome}</Text>}
+                    
                 
                     {projects.map((projeto: any) =>
                         <View key={projeto.nome} style={{flexDirection: 'column'}}>
@@ -82,7 +89,7 @@ export default function Itens(props: ItensProps){
                                 </View>
                             </Pressable>
                             <View style={styles.bts}>
-                                <Pressable onPress={() => exclusao(projeto.id)}>
+                                <Pressable onPress={() => {setShowAlert(true)}}>
                                     <View style={styles.excluir}>
                                         <Icon name="delete" type="material" color={'#fff'}/>
                                     </View>
@@ -98,12 +105,10 @@ export default function Itens(props: ItensProps){
                                     </View>
                                 </Pressable>
                             </View>
-                            
+                            <AwesomeAlert show={showAlert} showProgress={false} title="Cancelamento" message={'Deseja realmente excluir a evidência?'} closeOnTouchOutside={false} closeOnHardwareBackPress={false} showCancelButton={true} showConfirmButton={true} cancelText="Não" confirmText="Sim" cancelButtonColor="#152319" confirmButtonColor="#800020" onCancelPressed={() => {setShowAlert(false)}} onConfirmPressed={() => {exclusao(projeto.id)}}/>
                             <View style={styles.line}/>    
                             
                         </View>
-                            
-                        
                     )}
                 
                 <View style={{marginBottom:100, marginTop: 100}}>

@@ -5,25 +5,32 @@ import { firestore } from '../../config/firebase-config';
 import { HeaderList, HeaderProject } from '../header';
 
 
-export interface AliviarDorscreenProps {
+export interface listProps {
     navigation: any;
 }
 
-const projects : any = []
-const unsubscribe = onSnapshot(collection(firestore, 'projetos'), (querySnapshot) => {
-    projects.length = 0;  // Limpar o array antes de adicionar novos dados
-    querySnapshot.forEach((doc) => {
-        projects.push(doc.data());
-    });
-})
+export default function Projetos(props: listProps ) {
 
-
-export default function Projetos(props: AliviarDorscreenProps ) {
+    const [projects, setProjects] = useState([]);
+    useEffect(() => {
+        const unsubscribe = onSnapshot(collection(firestore, 'projetos'), (querySnapshot) => {
+            const newProjects : any = []
+            projects.length = 0;  // Limpar o array antes de adicionar novos dados
+            querySnapshot.forEach((doc) => {
+                newProjects.push(doc.data());
+            });
+            setProjects(newProjects);
+        })
+    })
     
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
-        <ScrollView style={styles.formPoint}> 
-            <HeaderList/>
+            <SafeAreaView style={styles.formPoint}>
+                <View style={{backgroundColor: 'rgba(255,255,255,0.08)', marginTop: 5}}>
+                <HeaderList/>
+                </View>
+        <ScrollView style={{flex: 1,  backgroundColor: 'rgba(255,255,255,0.08)', padding: 20}}> 
+            
             
                 <View>
                     
@@ -50,8 +57,8 @@ export default function Projetos(props: AliviarDorscreenProps ) {
                     </View>
                 </View>
         </ScrollView>
+        </SafeAreaView>
         </ImageBackground>
-
     );
 }
 

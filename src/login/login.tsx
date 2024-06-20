@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, Image, ImageBackground, SafeAreaView, Pressable, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { firebaseConfig } from '../config/firebase-config'; 
+import { View, Text, TextInput, StyleSheet, Alert, Image, ImageBackground, SafeAreaView, Pressable, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../config/firebase-config'; 
 
@@ -67,7 +66,7 @@ const LoginScreen = ({ navigation }: any) => {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{flex: 1}} >
             
                 <View style={[styles.container]}>
-                    <Image source={require('../../assets/images/imagem_2024-06-08_142437650-removebg-preview.png')} style={{height: 150, objectFit: 'contain',  alignSelf: 'center', marginBottom: 10}}/>
+                    <Image source={require('../../assets/images/imagem_2024-06-08_142437650-removebg-preview.png')} style={{height: 130, objectFit: 'contain',  alignSelf: 'center', marginBottom: 10}}/>
                     <Text style={styles.title}>Login</Text>
                     <TextInput
                         style={styles.input}

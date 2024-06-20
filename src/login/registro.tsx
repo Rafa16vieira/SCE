@@ -58,7 +58,7 @@ const RegisterScreen = ({ navigation }: any) => {
     return (
         <ImageBackground style={{flex: 1}} source={require('../../assets/images/background.png')}>
         <View style={styles.container}>
-        <Image source={require('../../assets/images/imagem_2024-06-08_142437650-removebg-preview.png')} style={{width: '56%', height: '20%', alignSelf: 'center', marginBottom: 0}}/>
+        <Image source={require('../../assets/images/imagem_2024-06-08_142437650-removebg-preview.png')} style={{objectFit: 'contain', height: 150, alignSelf: 'center', marginBottom: 0}}/>
             <Text style={styles.title}>Registrar</Text>
             <TextInput
                 style={styles.input}

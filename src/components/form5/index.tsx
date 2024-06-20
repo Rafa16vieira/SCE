@@ -1,31 +1,14 @@
-import React, { useState, Component, useEffect } from "react";
-import { View, Text, Image, Pressable, SafeAreaView, ScrollView, TextInput, Share, ImageBackground, } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Pressable, SafeAreaView, ImageBackground, TouchableOpacity, } from "react-native";
 import { SelectList } from "react-native-dropdown-select-list";
 import styles from "./style";
-import { Icon } from '@rneui/themed';
 import { Header1 } from "../header";
-import { FieldPath, collection, doc, getDoc, getDocs, setDoc, updateDoc, where } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { firestore, auth } from "../../config/firebase-config";
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { RouteProp } from "@react-navigation/native";
 import { params } from "../navigation";
-import bg from './../../../assets/images/background.png';
-import { printToFile } from "@/src/getter";
-
-
-
-
-
-export function criacao(importancia: any, falha: any, id: any, selo: string, evidencia: string, avaliador: string){
-    updateDoc(doc(firestore, "forms", id ), {
-        importancia: importancia,
-        falha: falha,
-        selo: selo,
-        evidencia: evidencia,
-        avaliador: avaliador,
-        id: id
-    })
-}
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 
 export interface form5props {
@@ -38,67 +21,80 @@ let selo: string
 let evidencia: string
 let rcf : number
 
-export function perigo(importancia: number){
-    switch (importancia){
-        case 1:
-            return '1 - insignificante'
-            break;
-        case 2:
-            return '2 - insignificante'
-            break;
-        case 3:
-            return '3 - insignificante'
-            break;
-        case 4:
-            return '4 - insignificante'
-            break;
-        case 5:
-            return '5 - marginal'
-            break;
-        case 6:
-            return '6 - marginal'
-            break;
-        case 7:
-            return '7 - crítico'
-            break;
-        case 8:
-            return '8 - crítico'
-            break;
-        case 9:
-            return '9 - catastrófico'
-            break;
-        case 10:
-            return '10 - catastrófico'
-            break;
-    }
-}
 
-export function fail(falha:number){
-    switch(falha){
-        case 1:
-            return '1 - frequente'
-            break;
-        case 2:
-            return '2 - provável'
-            break;
-        case 3: 
-            return '3 - ocasional'
-            break;
-        case 4:
-            return '4 - remoto'
-            break;
-        case 5:
-            return '5 - improvável'
-            break;
-        case 6:
-            return '6 - sem mitigação'
-            break;
-    }
-}
 
 export default function Form5( props: form5props ){
     const [ showAlert, setShowAlert ] = useState(false)
     const [ name, setName ] = useState("")
+
+    const criacao = (importancia: any, falha: any, id: any, selo: string, evidencia: string, avaliador: string) => {
+        updateDoc(doc(firestore, "forms", id ), {
+            importancia: importancia,
+            falha: falha,
+            selo: selo,
+            evidencia: evidencia,
+            avaliador: avaliador,
+            id: id
+        })
+    }
+
+    const perigo = (importancia: number) => {
+        switch (importancia){
+            case 1:
+                return '1 - insignificante'
+                break;
+            case 2:
+                return '2 - insignificante'
+                break;
+            case 3:
+                return '3 - insignificante'
+                break;
+            case 4:
+                return '4 - insignificante'
+                break;
+            case 5:
+                return '5 - marginal'
+                break;
+            case 6:
+                return '6 - marginal'
+                break;
+            case 7:
+                return '7 - crítico'
+                break;
+            case 8:
+                return '8 - crítico'
+                break;
+            case 9:
+                return '9 - catastrófico'
+                break;
+            case 10:
+                return '10 - catastrófico'
+                break;
+        }
+    }
+    
+    const fail = (falha:number) => {
+        switch(falha){
+            case 1:
+                return '1 - frequente'
+                break;
+            case 2:
+                return '2 - provável'
+                break;
+            case 3: 
+                return '3 - ocasional'
+                break;
+            case 4:
+                return '4 - remoto'
+                break;
+            case 5:
+                return '5 - improvável'
+                break;
+            case 6:
+                return '6 - sem mitigação'
+                break;
+        }
+    }
 
     const data = [
         { key: 1, value: '1' },
@@ -127,7 +123,7 @@ export default function Form5( props: form5props ){
     const [user, ] = useState({})
 
     //@ts-ignore
-    const { id, relevancia, cobertura, forca } = props.route.params
+    const { id, relevancia, cobertura, forca, projectID } = props.route.params
     const newid = String(id)
 
     
@@ -306,19 +302,25 @@ export default function Form5( props: form5props ){
             }
             break;
     }
+
+    const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
     
     const stringfinal: string = "Essa evidência tem selo " + selo
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.formPoint}>
-        
-        <View style={styles.formPoint}>
+            <View style={{backgroundColor:'rgba(255,255,255,0.08)'}}>
             <Header1/>
+            </View>
+            <KeyboardAwareScrollView keyboardDismissMode="on-drag" style={{flex: 1,  backgroundColor: 'rgba(255,255,255,0.08)', padding: 20}} extraScrollHeight={100}>
+        
+        <View>
                 <View style={styles.sample}>
                     <Text style={styles.text}>Determinar grau de importância</Text>
-                    <SelectList setSelected={(importancia: number) => setImportancia(importancia)} data={data} save="key" dropdownStyles={{width: '100%', backgroundColor: '#fff', marginBottom: 10, height: 200}} maxHeight={200} dropdownTextStyles={{color: '#000'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1, marginBottom: 20}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
+                    <SelectList dropdownShown={open1} setSelected={(importancia: number) => setImportancia(importancia)} data={data} save="key" dropdownStyles={{width: '100%', backgroundColor: '#1f3324', marginBottom: 10, height: 200}} maxHeight={200} dropdownTextStyles={{color: '#fff'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1, marginBottom: 20}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
                     <Text style={styles.text}>Probabilidade de falha</Text>
-                    <SelectList setSelected={(falha: number) => setFalha(falha)} data={data2} save="key" dropdownStyles={{width: '100%', backgroundColor: '#fff', marginBottom: 10, height: 200}} dropdownTextStyles={{color: '#000'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
+                    <SelectList dropdownShown={open2} setSelected={(falha: number) => setFalha(falha)} data={data2} save="key" dropdownStyles={{width: '100%', backgroundColor: '#1f3324', marginBottom: 10, height: 200}} dropdownTextStyles={{color: '#fff'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
                 </View>
 
                 <View style={styles.buttons}>
@@ -329,10 +331,10 @@ export default function Form5( props: form5props ){
                         <Text style={styles.buttonTextNext}>Confirmar</Text>
                     </Pressable>
                 </View>
-                <AwesomeAlert show={showAlert} showProgress={false} title="Confirmação da evidência" message={stringfinal} closeOnTouchOutside={false} closeOnHardwareBackPress={false} showCancelButton={false} showConfirmButton={true} cancelText="Cadastros" confirmText="Voltar ao menu" cancelButtonColor="#152319" confirmButtonColor="#5c996b" onCancelPressed={() => {props.navigation.navigate("Projetos");}} onConfirmPressed={() => {props.navigation.navigate("Main");}}/>
+                <AwesomeAlert show={showAlert} showProgress={false} title="Confirmação da evidência" message={stringfinal} closeOnTouchOutside={false} closeOnHardwareBackPress={false} showCancelButton={false} showConfirmButton={true} confirmText="Concluir" confirmButtonColor="#5c996b" onConfirmPressed={() => {props.navigation.navigate("Itens", {id: projectID});}}/>
         </View>
+        </KeyboardAwareScrollView>
         </SafeAreaView>
         </ImageBackground>
-        
     );
 }
