@@ -54,7 +54,7 @@ export default function Edit(props: editProps) {
                 }
                 break;
             case '5 - marginal':
-            case '6  - marginal':
+            case '6 - marginal':
                 switch (falha){
                     case '6 - sem mitigação':
                         return 'Cobre'
@@ -261,13 +261,15 @@ export default function Edit(props: editProps) {
                 <View style={{ flexDirection: 'column', flex: 1 }}>
                     <Text style={styles.texto}>Nome:</Text>
                     <TextInput
-                        style={styles.smallField}
+                        multiline={true}
+                        style={styles.midField}
                         value={evids.nome || ''}
                         onChangeText={(text) => handleInputChange('nome', text)}
                     />
                     <Text style={styles.texto}>Palavras chave:</Text>
                     <TextInput
-                        style={styles.smallField}
+                        style={styles.midField}
+                        multiline={true}
                         placeholder="Palavras chave (separadas por vírgula)"
                         placeholderTextColor={'#fff'}
                         value={Array.isArray(evids.palavras) ? evids.palavras.join(', ') : ''}
@@ -282,19 +284,21 @@ export default function Edit(props: editProps) {
                     <Text style={styles.texto}>Propósito:</Text>
                     <TextInput
                     multiline={true}
-                        style={styles.bigField}
+                        style={styles.biggestField}
                         value={evids.proposito || ''}
                         onChangeText={(text) => handleInputChange('proposito', text)}
                     />
                     <Text style={styles.texto}>Identificação:</Text>
                     <TextInput
-                        style={styles.bigField}
+                    multiline={true}
+                        style={styles.biggestField}
                         value={evids.identificacao || ''}
                         onChangeText={(text) => handleInputChange('identificacao', text)}
                     />
                     <Text style={styles.texto}>Autores:</Text>
                     <TextInput
-                        style={styles.smallField}
+                        style={styles.bigField}
+                        multiline={true}
                         placeholder="Autores (separados por vírgula)"
                         placeholderTextColor={'#fff'}
                         value={Array.isArray(evids.autores) ? evids.autores.join(', ') : ''}
@@ -308,20 +312,22 @@ export default function Edit(props: editProps) {
                     />
                     <Text style={styles.texto}>Tipo:</Text>
                     <TextInput
-                        style={styles.smallField}
+                        style={styles.midField}
+                        multiline={true}
                         value={evids.tipo || ''}
                         onChangeText={(text) => handleInputChange('tipo', text)}
                     />
                     <Text style={styles.texto}>Norma Regulatória:</Text>
                     <TextInput
                     multiline={true}
-                        style={styles.bigField}
+                        style={styles.biggestField}
                         value={evids.norma || ''}
                         onChangeText={(text) => handleInputChange('norma', text)}
                     />
                     <Text style={styles.texto}>Link da fonte:</Text>
                     <TextInput
-                        style={styles.smallField}
+                        style={styles.midField}
+                        multiline={true}
                         value={evids.fonte || ''}
                         onChangeText={(text) => handleInputChange('fonte', text)}
                     />
@@ -354,27 +360,28 @@ export default function Edit(props: editProps) {
                     <Text style={styles.texto}>Usos conhecidos:</Text>
                     <TextInput
                         multiline={true}
-                        style={styles.bigField}
+                        style={styles.biggestField}
                         value={evids.usos || ''}
                         onChangeText={(text) => handleInputChange('usos', text)}
                     />
                     <Text style={styles.texto}>Implementação:</Text>
                     <TextInput
                         multiline={true}
-                        style={styles.bigField}
+                        style={styles.biggestField}
                         value={evids.implementacao || ''}
                         onChangeText={(text) => handleInputChange('implementacao', text)}
                     />
                     <Text style={styles.texto}>Possíveis viéses:</Text>
                     <TextInput
                         multiline={true}
-                        style={styles.bigField}
+                        style={styles.biggestField}
                         value={evids.vieses || ''}
                         onChangeText={(text) => handleInputChange('vieses', text)}
                     />
                     <Text style={styles.texto}>Inexistência de conflitos de interesse:</Text>
                     <TextInput
-                        style={styles.smallField}
+                        style={styles.midField}
+                        multiline={true}
                         value={evids.conflitos || ''}
                         onChangeText={(text) => handleInputChange('conflitos', text)}
                     />
