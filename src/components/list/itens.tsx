@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, View, Text, Pressable, ImageBackground } from "react-native";
+import { SafeAreaView, ScrollView, View, Text, Pressable, ImageBackground, Alert } from "react-native";
 import styles from "./style";
 import { RouteProp } from '@react-navigation/native';
 import { params } from "../navigation";
@@ -24,11 +24,19 @@ export default function Itens(props: ItensProps){
     //@ts-ignore
     const {id} = props.route.params
 
-    const exclusao = async (id: any) => {
-        await deleteDoc(doc(firestore, "forms", id));
+    const exclusao = async (projeto: any) => {
+        Alert.alert('Excluir', `Deseja realmente excluir a evidência ${projeto.nome}?`, [
+            {text: 'Cancelar'},
+            {text: 'Confirmar', onPress: async () => {
+                await deleteDoc(doc(firestore, "forms", projeto.id));
+                //buscarEvidencias(projeto.projetoID);
+        
+                //setShowAlert(false)
+                Toast.show('Evidência excluída com sucesso!', {duration: Toast.durations.SHORT, position: Toast.positions.CENTER, animation: true, hideOnPress: true})
 
-        setShowAlert(false)
-        Toast.show('Evidência excluída com sucesso!', {duration: Toast.durations.SHORT, position: Toast.positions.CENTER, animation: true, hideOnPress: true})
+            }}
+        ])
+
     }
     
     const makeid = () => {
@@ -48,24 +56,28 @@ export default function Itens(props: ItensProps){
         const snapshot = await getDoc(doc(firestore, 'projetos', projectID));
 
         setProject(snapshot.data())
+    }
 
+    const buscarEvidencias = async (projetoID: any) => {
+        //Busca as evidencias
+        const q = query(collection(firestore, 'forms'), where('projetoID', '==', projetoID));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const newProjects : any = [];
+
+            querySnapshot.forEach((doc) => {
+                newProjects.push(doc.data());
+            });
+            setProjects(newProjects)
+    
+        });
     }
 
     
     useEffect(() => {
         if (id) {
             buscarProjeto(id);
-            //Busca as evidencias
-            const q = query(collection(firestore, 'forms'), where('projetoID', '==', id));
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const newProjects : any = [];
-                querySnapshot.forEach((doc) => {
-                    newProjects.push(doc.data());
-                });
-                setProjects(newProjects)
-        
-                });
-            }
+            buscarEvidencias(id);
+        }
     }, [id]);
 
     
@@ -89,7 +101,7 @@ export default function Itens(props: ItensProps){
                                 </View>
                             </Pressable>
                             <View style={styles.bts}>
-                                <Pressable onPress={() => {setShowAlert(true)}}>
+                                <Pressable onPress={() => exclusao(projeto)}>
                                     <View style={styles.excluir}>
                                         <Icon name="delete" type="material" color={'#fff'}/>
                                     </View>
@@ -105,7 +117,7 @@ export default function Itens(props: ItensProps){
                                     </View>
                                 </Pressable>
                             </View>
-                            <AwesomeAlert show={showAlert} showProgress={false} title="Cancelamento" message={'Deseja realmente excluir a evidência?'} closeOnTouchOutside={false} closeOnHardwareBackPress={false} showCancelButton={true} showConfirmButton={true} cancelText="Não" confirmText="Sim" cancelButtonColor="#152319" confirmButtonColor="#800020" onCancelPressed={() => {setShowAlert(false)}} onConfirmPressed={() => {exclusao(projeto.id)}}/>
+
                             <View style={styles.line}/>    
                             
                         </View>
