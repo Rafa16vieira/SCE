@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
         marginTop: 30,
         marginBottom: 40,
         justifyContent: 'center'
-        
     },
     back: {
         backgroundColor: '#1f3324',
