@@ -24,9 +24,19 @@ export default function Itens(props: ItensProps){
     //@ts-ignore
     const {id} = props.route.params
 
-    const exclusao = async (id: any) => {
-        await deleteDoc(doc(firestore, "forms", id));
-        Toast.show('Evidência excluída com sucesso!', {duration: Toast.durations.SHORT, position: Toast.positions.CENTER, animation: true, hideOnPress: true})
+    const exclusao = async (projeto: any) => {
+        Alert.alert('Excluir', `Deseja realmente excluir a evidência ${projeto.nome}?`, [
+            {text: 'Cancelar'},
+            {text: 'Confirmar', onPress: async () => {
+                await deleteDoc(doc(firestore, "forms", projeto.id));
+                //buscarEvidencias(projeto.projetoID);
+        
+                //setShowAlert(false)
+                Toast.show('Evidência excluída com sucesso!', {duration: Toast.durations.SHORT, position: Toast.positions.CENTER, animation: true, hideOnPress: true})
+
+            }}
+        ])
+
     }
     
     const makeid = () => {
@@ -46,24 +56,28 @@ export default function Itens(props: ItensProps){
         const snapshot = await getDoc(doc(firestore, 'projetos', projectID));
 
         setProject(snapshot.data())
+    }
 
+    const buscarEvidencias = async (projetoID: any) => {
+        //Busca as evidencias
+        const q = query(collection(firestore, 'forms'), where('projetoID', '==', projetoID));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            const newProjects : any = [];
+
+            querySnapshot.forEach((doc) => {
+                newProjects.push(doc.data());
+            });
+            setProjects(newProjects)
+    
+        });
     }
 
     
     useEffect(() => {
         if (id) {
             buscarProjeto(id);
-            //Busca as evidencias
-            const q = query(collection(firestore, 'forms'), where('projetoID', '==', id));
-            const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const newProjects : any = [];
-                querySnapshot.forEach((doc) => {
-                    newProjects.push(doc.data());
-                });
-                setProjects(newProjects)
-        
-                });
-            }
+            buscarEvidencias(id);
+        }
     }, [id]);
 
     const handleExcluir = async (nome: string, id: any) => {
@@ -101,7 +115,7 @@ export default function Itens(props: ItensProps){
                                 </View>
                             </Pressable>
                             <View style={styles.bts}>
-                                <Pressable onPress={() => {handleExcluir(projeto.nome, id)}}>
+                                <Pressable onPress={() => exclusao(projeto)}>
                                     <View style={styles.excluir}>
                                         <Icon name="delete" type="material" color={'#fff'}/>
                                     </View>
