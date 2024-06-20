@@ -60,7 +60,7 @@ export default function Form2( props: form2props ){
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}} style={{flex:1}}>
         <SafeAreaView style={styles.formPoint}>
-            <View style={{backgroundColor:'rgba(255,255,255,0.08)'}}>
+            <View style={{backgroundColor:'rgba(255,255,255,0.08)', marginTop: 5}}>
             <Header1/>
             </View>
             <KeyboardAwareScrollView keyboardDismissMode="on-drag" style={{backgroundColor: 'rgba(255,255,255,0.08)', padding: 20}} extraScrollHeight={100}>
@@ -96,7 +96,7 @@ export default function Form2( props: form2props ){
                 <Text style={styles.text}>Consistência com a literatura anterior</Text>
                 <TextInput style={styles.type} multiline={true} onChangeText={(consistencia) => setConsistencia(consistencia)} placeholder="Consistência" placeholderTextColor={'#fff'}/>
                 <View style={styles.buttons}>
-                    <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form1", {id: newid})}>
+                    <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form1", {id: newid, projectID: projectID})}>
                         <Text style={styles.buttonTextBack}>Voltar</Text>
                     </Pressable>
                     <Pressable style={styles.next} onPressIn={() => criacao(fonte, autores, data, tipo, norma, relacoes, revisao, consistencia, newid, ident)} onPress={() => props.navigation.navigate("Form3", {id: newid, projectID: projectID})}>

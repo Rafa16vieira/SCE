@@ -1,8 +1,8 @@
-import { SafeAreaView, ScrollView, View, Text, Pressable, ImageBackground } from "react-native";
+import { SafeAreaView, ScrollView, View, Text, Pressable, ImageBackground, Alert } from "react-native";
 import styles from "./style";
 import { RouteProp } from '@react-navigation/native';
 import { params } from "../navigation";
-import { collection, deleteDoc, doc, getDoc, onSnapshot, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, onSnapshot, query, updateDoc, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { firestore } from "@/src/config/firebase-config";
 import { Icon } from "@rneui/themed";
@@ -26,8 +26,6 @@ export default function Itens(props: ItensProps){
 
     const exclusao = async (id: any) => {
         await deleteDoc(doc(firestore, "forms", id));
-
-        setShowAlert(false)
         Toast.show('Evidência excluída com sucesso!', {duration: Toast.durations.SHORT, position: Toast.positions.CENTER, animation: true, hideOnPress: true})
     }
     
@@ -68,6 +66,20 @@ export default function Itens(props: ItensProps){
             }
     }, [id]);
 
+    const handleExcluir = async (nome: string, id: any) => {
+        const text:string = 'Deseja realmente excluir a evidência ' + id + '?'
+        if (id) {
+            try {
+                Alert.alert('Exclusão', text, [
+                    { text: 'NÃO'},
+                    { text: 'SIM', onPress: () => {exclusao(id)}}
+                ]);
+            } catch (error) {
+                Alert.alert('Erro', 'Ocorreu um erro tentando excluir a evidência.');
+            }
+        }
+    };
+
     
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
@@ -89,12 +101,12 @@ export default function Itens(props: ItensProps){
                                 </View>
                             </Pressable>
                             <View style={styles.bts}>
-                                <Pressable onPress={() => {setShowAlert(true)}}>
+                                <Pressable onPress={() => {handleExcluir(projeto.nome, id)}}>
                                     <View style={styles.excluir}>
                                         <Icon name="delete" type="material" color={'#fff'}/>
                                     </View>
                                 </Pressable>
-                                <Pressable onPress={() => props.navigation.navigate("Edit", {nome: projeto.nome})}>
+                                <Pressable onPress={() => props.navigation.navigate("Edit", {nome: projeto.nome, projectID: id})}>
                                     <View style={styles.editar}>
                                         <Icon name="edit" type="material" color={'#000'}/>
                                     </View>
@@ -105,7 +117,6 @@ export default function Itens(props: ItensProps){
                                     </View>
                                 </Pressable>
                             </View>
-                            <AwesomeAlert show={showAlert} showProgress={false} title="Cancelamento" message={'Deseja realmente excluir a evidência?'} closeOnTouchOutside={false} closeOnHardwareBackPress={false} showCancelButton={true} showConfirmButton={true} cancelText="Não" confirmText="Sim" cancelButtonColor="#152319" confirmButtonColor="#800020" onCancelPressed={() => {setShowAlert(false)}} onConfirmPressed={() => {exclusao(projeto.id)}}/>
                             <View style={styles.line}/>    
                             
                         </View>

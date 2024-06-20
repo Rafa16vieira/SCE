@@ -74,7 +74,7 @@ export default function Form4( props: form5props){
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.formPoint}>
-            <View style={{backgroundColor:'rgba(255,255,255,0.08)', marginTop: 1}}>
+            <View style={{backgroundColor:'rgba(255,255,255,0.08)', marginTop: 5}}>
             <Header1/>
             </View>
             <KeyboardAwareScrollView keyboardDismissMode="on-drag" style={{flex: 1,  backgroundColor: 'rgba(255,255,255,0.08)'}} extraScrollHeight={100}>
@@ -109,7 +109,7 @@ export default function Form4( props: form5props){
                 <SelectList setSelected={(forca: number) => setForca(forca)} data={data4} save="key" dropdownStyles={{width: '100%', backgroundColor: '#1f3324', marginBottom: 10, height: 200}} maxHeight={200} dropdownTextStyles={{color: '#fff'}} boxStyles={{width: '100%', backgroundColor: '#1f3324', borderColor: '#646464', borderWidth: 1, marginBottom: 20}} inputStyles={{color: '#fff'}} search={false} placeholder="Selecione..."/>
             </View>
             <View style={styles.buttons}>
-                <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form3", {id: newid})}>
+                <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form3", {id: newid, projectID: projectID})}>
                     <Text style={styles.buttonTextBack}>Voltar</Text>
                 </Pressable>
                 <Pressable style={styles.next} onPressIn={() => criacao(textsint, fortalece, naltera, enfraquece, relevancia, cobertura, forca, newid)} onPress={() => props.navigation.navigate("Form5", {id: newid, relevancia: relevancia, cobertura: cobertura, forca: forca, projectID: projectID})}>

@@ -30,7 +30,7 @@ export default function Edit(props: editProps) {
 
 
     //@ts-ignore
-    const { nome } = props.route.params;
+    const { nome, projectID } = props.route.params;
 
     const calculateSelo = ( importancia: string, falha: string) => {
     
@@ -201,7 +201,7 @@ export default function Edit(props: editProps) {
             try {
                 await updateDoc(docRef, evids);
                 Alert.alert('Successo', 'Atualização bem sucedida!', [
-                    { text: 'OK', onPress: () => props.navigation.navigate("Main") }
+                    { text: 'OK', onPress: () => {props.navigation.navigate("Itens", {id: projectID})}}
                 ]);
             } catch (error) {
                 console.error("Error updating document: ", error);
@@ -257,7 +257,7 @@ export default function Edit(props: editProps) {
             </View>
         <SafeAreaView style={styles.formPoint}>
             
-            <KeyboardAwareScrollView style={{flex: 1,  backgroundColor: 'rgba(255,255,255,0.08)', padding: 20}}>
+            <KeyboardAwareScrollView style={{flex: 1,  backgroundColor: 'rgba(255,255,255,0.08)', padding: 20,}} extraScrollHeight={100}>
                 <View style={{ flexDirection: 'column', flex: 1 }}>
                     <Text style={styles.texto}>Nome:</Text>
                     <TextInput

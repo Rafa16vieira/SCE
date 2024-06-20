@@ -310,7 +310,7 @@ export default function Form5( props: form5props ){
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.formPoint}>
-            <View style={{backgroundColor:'rgba(255,255,255,0.08)'}}>
+            <View style={{backgroundColor:'rgba(255,255,255,0.08)', marginTop: 5}}>
             <Header1/>
             </View>
             <KeyboardAwareScrollView keyboardDismissMode="on-drag" style={{flex: 1,  backgroundColor: 'rgba(255,255,255,0.08)', padding: 20}} extraScrollHeight={100}>
@@ -324,7 +324,7 @@ export default function Form5( props: form5props ){
                 </View>
 
                 <View style={styles.buttons}>
-                    <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form4", {id: newid})}>
+                    <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form4", {id: newid, projectID: projectID})}>
                         <Text style={styles.buttonTextBack}>Voltar</Text>
                     </Pressable>
                     <Pressable style={styles.next} onPressIn={() => criacao(perigo(importancia), fail(falha), newid, selo, evidencia, name)} onPress={() => setShowAlert(true)}>

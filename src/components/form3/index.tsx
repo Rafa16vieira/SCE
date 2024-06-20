@@ -38,7 +38,7 @@ export default function Form3( props: form3props ){
     return(
         <ImageBackground source={{uri: "https://i.postimg.cc/hPMS7gGQ/background.png"}}>
         <SafeAreaView style={styles.formPoint}>
-            <View style={{backgroundColor:'rgba(255,255,255,0.08)'}}>
+            <View style={{backgroundColor:'rgba(255,255,255,0.08)', marginTop: 5}}>
             <Header1/>
             </View>
             <KeyboardAwareScrollView keyboardDismissMode="on-drag" style={{flex: 1,  backgroundColor: 'rgba(255,255,255,0.08)', padding: 20}} extraScrollHeight={100}>
@@ -53,7 +53,7 @@ export default function Form3( props: form3props ){
                 <Text style={styles.text}>Conflitos de interesse</Text>
                 <TextInput style={styles.conflitos} onChangeText={(conflitos) => setConflitos(conflitos)} placeholder="Existem conflitos de interesse?" placeholderTextColor={'#fff'}/>
                 <View style={styles.buttons}>
-                <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form2", {id: newid})}>
+                <Pressable style={styles.back} onPress={() => props.navigation.navigate("Form2", {id: newid, projectID: projectID})}>
                     <Text style={styles.buttonTextBack}>Voltar</Text>
                 </Pressable>
                 <Pressable style={styles.next} onPressIn={() => criacao(amostra, implementacao, usos, vieses, conflitos, newid)} onPress={() => props.navigation.navigate("Form4", {id: newid, projectID: projectID})}>

@@ -31,7 +31,7 @@ export type params = {
     Form5: { id: any, relevancia: number, cobertura: number, forca: number, projectID: any},
     Login: any,
     Registro: any,
-    Edit: { nome: string }
+    Edit: { nome: string, projectID: any }
 }
 
 
